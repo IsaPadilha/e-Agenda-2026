@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "7DcgNHqC/to=",
+  "dgSpecHash": "1pLpdzwT0rA=",
   "success": true,
   "projectFilePath": "C:\\Academia C#\\eAgenda\\src\\Aplicacao\\eAgenda.Aplicacao.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Isa\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\10.0.12\\microsoft.extensions.dependencyinjection.10.0.12.nupkg.sha512",
+    "C:\\Users\\Isa\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.12\\microsoft.extensions.dependencyinjection.abstractions.10.0.12.nupkg.sha512"
+  ],
   "logs": []
 }
