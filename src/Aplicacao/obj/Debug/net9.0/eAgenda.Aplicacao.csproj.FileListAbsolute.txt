@@ -1,0 +1,16 @@
+C:\Academia C#\eAgenda\src\Aplicacao\bin\Debug\net9.0\eAgenda.Aplicacao.deps.json
+C:\Academia C#\eAgenda\src\Aplicacao\bin\Debug\net9.0\eAgenda.Aplicacao.dll
+C:\Academia C#\eAgenda\src\Aplicacao\bin\Debug\net9.0\eAgenda.Aplicacao.pdb
+C:\Academia C#\eAgenda\src\Aplicacao\bin\Debug\net9.0\eAgenda.Dominio.dll
+C:\Academia C#\eAgenda\src\Aplicacao\bin\Debug\net9.0\eAgenda.Dominio.pdb
+C:\Academia C#\eAgenda\src\Aplicacao\obj\Debug\net9.0\eAgenda.Aplicacao.csproj.AssemblyReference.cache
+C:\Academia C#\eAgenda\src\Aplicacao\obj\Debug\net9.0\eAgenda.Aplicacao.GeneratedMSBuildEditorConfig.editorconfig
+C:\Academia C#\eAgenda\src\Aplicacao\obj\Debug\net9.0\eAgenda.Aplicacao.AssemblyInfoInputs.cache
+C:\Academia C#\eAgenda\src\Aplicacao\obj\Debug\net9.0\eAgenda.Aplicacao.AssemblyInfo.cs
+C:\Academia C#\eAgenda\src\Aplicacao\obj\Debug\net9.0\eAgenda.Aplicacao.csproj.CoreCompileInputs.cache
+C:\Academia C#\eAgenda\src\Aplicacao\obj\Debug\net9.0\eAgenda.Aplicacao.sourcelink.json
+C:\Academia C#\eAgenda\src\Aplicacao\obj\Debug\net9.0\eAgenda..E61C9BFD.Up2Date
+C:\Academia C#\eAgenda\src\Aplicacao\obj\Debug\net9.0\eAgenda.Aplicacao.dll
+C:\Academia C#\eAgenda\src\Aplicacao\obj\Debug\net9.0\refint\eAgenda.Aplicacao.dll
+C:\Academia C#\eAgenda\src\Aplicacao\obj\Debug\net9.0\eAgenda.Aplicacao.pdb
+C:\Academia C#\eAgenda\src\Aplicacao\obj\Debug\net9.0\ref\eAgenda.Aplicacao.dll

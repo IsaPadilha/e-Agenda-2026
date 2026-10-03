@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JbOnLnAvNCo=",
+  "dgSpecHash": "xT0wQk5EgC4=",
   "success": true,
-  "projectFilePath": "C:\\Academia C#\\eAgenda\\src\\Aplicacao\\eAgenda.Aplicacao.csproj",
+  "projectFilePath": "C:\\Academia C#\\eAgenda\\src\\WebApp\\eAgenda.WebApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Isa\\.nuget\\packages\\fluentresults\\4.0.0\\fluentresults.4.0.0.nupkg.sha512",
     "C:\\Users\\Isa\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\10.0.12\\microsoft.extensions.dependencyinjection.10.0.12.nupkg.sha512",
