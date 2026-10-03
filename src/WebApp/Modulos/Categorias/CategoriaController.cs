@@ -1,20 +1,17 @@
-using eAgenda.Dominio.Modulos.Categorias;
+using eAgenda.Aplicacao.Modulos.Categorias;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eAgenda.WebApp.Modulos.Categorias;
 
-public sealed class CategoriaController(IRepositorioCategoria repositorioCategoria) : Controller
+public sealed class CategoriaController(ServicoCategoria servicoCategoria) : Controller
 {
     [HttpGet]
     public ActionResult Listar()
     {
-        List<Categoria> categorias = repositorioCategoria.SelecionarTodos();
+        List<CategoriaDto> categorias = servicoCategoria.SelecionarTodos();
 
-        List<ListarCategoriasViewModel> listarVms = categorias
-            .Select(c => new ListarCategoriasViewModel(c.Id, c.Titulo))
-            .ToList();
-
-        return View();
+        return View(categorias);
     }
 
     [HttpGet]
@@ -28,21 +25,17 @@ public sealed class CategoriaController(IRepositorioCategoria repositorioCategor
     [HttpPost]
     public ActionResult Cadastrar(CadastrarCategoriaViewModel viewModel)
     {
-        Categoria categoria = new Categoria(viewModel.Titulo);
+        Result<Guid> resultado = servicoCategoria
+            .Cadastrar(new CadastrarCategoriaDto(viewModel.Titulo));
 
-        List<string> erros = categoria.Validar();
-
-        if (repositorioCategoria.ExisteCategoriaPorTitulo(categoria.Titulo))
-            erros.Add("Já existe uma categoria cadastrada com o título informado");
-
-        if (erros.Count > 0)
+        if (resultado.IsFailed)
         {
-            ModelState.AddModelError(string.Empty, erros[0]);
+            string mensagemErro = resultado.Errors.Select(e => e.Message).First();
+
+            ModelState.AddModelError(string.Empty, mensagemErro);
 
             return View(viewModel);
         }
-
-        repositorioCategoria.Cadastrar(categoria);
 
         return RedirectToAction(nameof(Listar));
     }

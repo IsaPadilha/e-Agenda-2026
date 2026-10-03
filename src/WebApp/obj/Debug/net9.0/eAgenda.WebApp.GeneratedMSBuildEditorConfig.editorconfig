@@ -27,3 +27,15 @@ build_metadata.AdditionalFiles.CssScope =
 [C:/Academia C\#/eAgenda/src/WebApp/Compartilhado/Views/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Q29tcGFydGlsaGFkb1xWaWV3c1xfTGF5b3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Academia C\#/eAgenda/src/WebApp/Modulos/Categorias/Views/Cadastrar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = TW9kdWxvc1xDYXRlZ29yaWFzXFZpZXdzXENhZGFzdHJhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Academia C\#/eAgenda/src/WebApp/Modulos/Categorias/Views/Listar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = TW9kdWxvc1xDYXRlZ29yaWFzXFZpZXdzXExpc3Rhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Academia C\#/eAgenda/src/WebApp/_ViewsImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = X1ZpZXdzSW1wb3J0cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
