@@ -3,5 +3,6 @@
     <Project Path="src/Aplicacao/eAgenda.Aplicacao.csproj" />
     <Project Path="src/Dominio/eAgenda.Dominio.csproj" />
     <Project Path="src/WebApp/eAgenda.WebApp.csproj" />
+    <Project Path="src/Infraestrutura/eAgenda.Infraestrutura.csproj" />
   </Folder>
 </Solution>
