@@ -1,11 +1,12 @@
 using eAgenda.Dominio.Compartilhado;
+using eAgenda.Dominio.Modulos.Despesas;
 
 namespace eAgenda.Dominio.Modulos.Categorias;
 
 public sealed class Categoria : EntidadeBase<Categoria>
 {
     public string Titulo { get; set; } = string.Empty;
-
+    public List<Despesa> Despesas { get; set; } = [];
     public Categoria() { }
 
     public Categoria(string titulo) : this()
