@@ -32,7 +32,7 @@ public sealed class CategoriaController(ServicoCategoria servicoCategoria) : Con
 
         if (resultado.IsFailed)
         {
-            foreach (var erro in resultado.Errors)
+            foreach (IError erro in resultado.Errors)
             {
                 string campo = erro.Metadata["Campo"].ToString() ?? string.Empty;
 
@@ -77,7 +77,7 @@ public sealed class CategoriaController(ServicoCategoria servicoCategoria) : Con
 
         if (resultado.IsFailed)
         {
-            foreach (var erro in resultado.Errors)
+            foreach (IError erro in resultado.Errors)
             {
                 string campo = erro.Metadata["Campo"].ToString() ?? string.Empty;
 
@@ -94,12 +94,23 @@ public sealed class CategoriaController(ServicoCategoria servicoCategoria) : Con
     [HttpGet]
     public ActionResult Excluir(Guid id)
     {
-        throw new NotImplementedException();
+        Result<CategoriaDto> resultado = servicoCategoria.SelecionarPorId(id);
+
+        if (resultado.IsFailed)
+            return RedirectToAction(nameof(Listar));
+
+        CategoriaDto dto = resultado.Value;
+
+        ExcluirCategoriaViewModel viewModel = new(dto.Id, dto.Titulo);
+
+        return View(viewModel);
     }
 
     [HttpPost]
     public ActionResult Excluir(ExcluirCategoriaViewModel viewModel)
     {
-        throw new NotImplementedException();
+        servicoCategoria.Excluir(viewModel.Id);
+
+        return RedirectToAction(nameof(Listar));
     }
 }
