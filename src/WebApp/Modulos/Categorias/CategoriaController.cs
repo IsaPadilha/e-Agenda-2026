@@ -1,4 +1,5 @@
 using eAgenda.Aplicacao.Modulos.Categorias;
+using eAgenda.Infraestrutura.Modulos.Categorias;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,13 +44,38 @@ public sealed class CategoriaController(ServicoCategoria servicoCategoria) : Con
     [HttpGet]
     public ActionResult Editar(Guid id)
     {
-        throw new NotImplementedException();
+        Result<CategoriaDto> resultado = servicoCategoria.SelecionarPorId(id);
+
+        if (resultado.IsFailed)
+            return RedirectToAction(nameof(Listar));
+
+        CategoriaDto dto = resultado.Value;
+
+        EditarCategoriaViewModel viewModel = new(
+            dto.Id,
+            dto.Titulo
+        );
+
+        return View(viewModel);
     }
 
     [HttpPost]
-    public ActionResult Editar(Guid id, EditarCategoriaViewModel viewModel)
+    public ActionResult Editar(EditarCategoriaViewModel viewModel)
     {
-        throw new NotImplementedException();
+        EditarCategoriaDto dto = new(viewModel.Id, viewModel.Titulo);
+
+        Result resultado = servicoCategoria.Editar(dto);
+
+        if (resultado.IsFailed)
+        {
+            string mensagemErro = resultado.Errors.Select(e => e.Message).First();
+
+            ModelState.AddModelError(string.Empty, mensagemErro);
+
+            return View(viewModel);
+        }
+
+        return RedirectToAction(nameof(Listar));
     }
 
     [HttpGet]
