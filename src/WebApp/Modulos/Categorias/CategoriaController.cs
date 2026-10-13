@@ -26,16 +26,22 @@ public sealed class CategoriaController(ServicoCategoria servicoCategoria) : Con
     [HttpPost]
     public ActionResult Cadastrar(CadastrarCategoriaViewModel viewModel)
     {
-        Result<Guid> resultado = servicoCategoria
-            .Cadastrar(new CadastrarCategoriaDto(viewModel.Titulo));
+        CadastrarCategoriaDto dto = new(viewModel.Titulo ?? string.Empty);
+
+        Result<Guid> resultado = servicoCategoria.Cadastrar(dto);
 
         if (resultado.IsFailed)
         {
-            string mensagemErro = resultado.Errors.Select(e => e.Message).First();
+            foreach (var erro in resultado.Errors)
+            {
+                string campo = erro.Metadata["Campo"].ToString() ?? string.Empty;
 
-            ModelState.AddModelError(string.Empty, mensagemErro);
+                ModelState.AddModelError(campo, erro.Message);
+
+            }
 
             return View(viewModel);
+
         }
 
         return RedirectToAction(nameof(Listar));
@@ -62,17 +68,24 @@ public sealed class CategoriaController(ServicoCategoria servicoCategoria) : Con
     [HttpPost]
     public ActionResult Editar(EditarCategoriaViewModel viewModel)
     {
-        EditarCategoriaDto dto = new(viewModel.Id, viewModel.Titulo);
+        EditarCategoriaDto dto = new(
+                    viewModel.Id,
+                    viewModel.Titulo ?? string.Empty
+                );
 
         Result resultado = servicoCategoria.Editar(dto);
 
         if (resultado.IsFailed)
         {
-            string mensagemErro = resultado.Errors.Select(e => e.Message).First();
+            foreach (var erro in resultado.Errors)
+            {
+                string campo = erro.Metadata["Campo"].ToString() ?? string.Empty;
 
-            ModelState.AddModelError(string.Empty, mensagemErro);
+                ModelState.AddModelError(campo, erro.Message);
+            }
 
             return View(viewModel);
+
         }
 
         return RedirectToAction(nameof(Listar));

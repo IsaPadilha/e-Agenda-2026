@@ -1,3 +1,4 @@
+using eAgenda.Dominio.Compartilhado;
 using eAgenda.Dominio.Modulos.Categorias;
 using FluentResults;
 
@@ -9,13 +10,24 @@ public sealed class ServicoCategoria(IRepositorioCategoria repositorioCategoria)
     {
         Categoria categoria = new Categoria(dto.Titulo);
 
-        List<string> erros = categoria.Validar();
+        List<ErroValidacao> erros = categoria.Validar();
 
         if (repositorioCategoria.ExisteCategoriaPorTitulo(categoria.Titulo))
-            erros.Add("Já existe uma categoria cadastrada com o título informado");
+        {
+            erros.Add(new ErroValidacao
+            {
+                Campo = nameof(dto.Titulo),
+                Mensagem = "Já existe uma categoria cadastrada com o título informado"
+            });
+        }
 
         if (erros.Count > 0)
-            return Result.Fail(erros[0]);
+        {
+            List<Error> errosResultado = erros
+                .Select(e => new Error(e.Mensagem).WithMetadata("Campo", e.Campo)).ToList();
+
+            return Result.Fail(errosResultado);
+        }
 
         repositorioCategoria.Cadastrar(categoria);
 
@@ -26,13 +38,24 @@ public sealed class ServicoCategoria(IRepositorioCategoria repositorioCategoria)
     {
         Categoria categoriaAtualizada = new Categoria(dto.Titulo);
 
-        List<string> erros = categoriaAtualizada.Validar();
+        List<ErroValidacao> erros = categoriaAtualizada.Validar();
 
         if (repositorioCategoria.ExisteCategoriaPorTitulo(categoriaAtualizada.Titulo, dto.Id))
-            erros.Add("Já existe uma categoria cadastrada com o título informado");
+        {
+            erros.Add(new ErroValidacao
+            {
+                Campo = nameof(categoriaAtualizada.Titulo),
+                Mensagem = "Já existe uma categoria cadastrada com o título informado"
+            });
+        }
 
         if (erros.Count > 0)
-            return Result.Fail(erros[0]);
+        {
+            List<Error> errosResultado = erros
+                .Select(e => new Error(e.Mensagem).WithMetadata("Campo", e.Campo)).ToList();
+
+            return Result.Fail(errosResultado);
+        }
 
         repositorioCategoria.Editar(dto.Id, categoriaAtualizada);
 
