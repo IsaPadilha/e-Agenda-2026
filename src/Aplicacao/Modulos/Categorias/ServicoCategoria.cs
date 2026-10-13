@@ -8,7 +8,7 @@ public sealed class ServicoCategoria(IRepositorioCategoria repositorioCategoria)
 {
     public Result<Guid> Cadastrar(CadastrarCategoriaDto dto)
     {
-        Categoria categoria = new Categoria(dto.Titulo);
+        Categoria categoria = new(dto.Titulo);
 
         List<ErroValidacao> erros = categoria.Validar();
 
@@ -36,7 +36,7 @@ public sealed class ServicoCategoria(IRepositorioCategoria repositorioCategoria)
 
     public Result Editar(EditarCategoriaDto dto)
     {
-        Categoria categoriaAtualizada = new Categoria(dto.Titulo);
+        Categoria categoriaAtualizada = new(dto.Titulo);
 
         List<ErroValidacao> erros = categoriaAtualizada.Validar();
 

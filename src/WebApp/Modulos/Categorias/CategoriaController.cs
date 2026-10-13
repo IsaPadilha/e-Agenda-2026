@@ -1,5 +1,4 @@
 using eAgenda.Aplicacao.Modulos.Categorias;
-using eAgenda.Infraestrutura.Modulos.Categorias;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +17,7 @@ public sealed class CategoriaController(ServicoCategoria servicoCategoria) : Con
     [HttpGet]
     public ActionResult Cadastrar()
     {
-        CadastrarCategoriaViewModel viewModel = new("");
+        CadastrarCategoriaViewModel viewModel = new(string.Empty);
 
         return View(viewModel);
     }
