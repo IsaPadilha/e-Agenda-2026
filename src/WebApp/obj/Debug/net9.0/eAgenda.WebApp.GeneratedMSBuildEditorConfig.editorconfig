@@ -52,6 +52,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = TW9kdWxvc1xDYXRlZ29yaWFzXFZpZXdzXExpc3Rhci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Academia C\#/eAgenda/src/WebApp/Modulos/Despesas/Views/Cadastrar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = TW9kdWxvc1xEZXNwZXNhc1xWaWV3c1xDYWRhc3RyYXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Academia C\#/eAgenda/src/WebApp/Modulos/Despesas/Views/Listar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = TW9kdWxvc1xEZXNwZXNhc1xWaWV3c1xMaXN0YXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Academia C\#/eAgenda/src/WebApp/_ViewsImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = X1ZpZXdzSW1wb3J0cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

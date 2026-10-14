@@ -1,5 +1,6 @@
+using eAgenda.Aplicacao.Modulos.Despesas;
+using eAgenda.Dominio.Modulos.Despesas;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-
 namespace eAgenda.WebApp.Modulos.Categorias;
 
 public record CadastrarCategoriaViewModel(
