@@ -3,57 +3,19 @@ using eAgenda.Infraestrutura.Compartilhado.Orm;
 
 namespace eAgenda.Infraestrutura.Modulos.Categorias;
 
-public sealed class RepositorioCategoriaEmOrm(EAgendaDbContext dbContext) : IRepositorioCategoria
+public sealed class RepositorioCategoriaEmOrm(EAgendaDbContext dbContext) :
+    RepositorioBaseEmOrm<Categoria>(dbContext), IRepositorioCategoria
 {
-    public void Cadastrar(Categoria entidade)
+    public override List<Categoria> SelecionarTodos()
     {
-        dbContext.Categorias.Add(entidade);
-
-        dbContext.SaveChanges();
-    }
-
-    public bool Editar(Guid idSelecionado, Categoria entidadeAtualizada)
-    {
-        Categoria? categoria = SelecionarPorId(idSelecionado);
-
-        if (categoria == null)
-            return false;
-
-        categoria.Atualizar(entidadeAtualizada);
-
-        dbContext.SaveChanges();
-
-        return true;
-    }
-
-    public bool Excluir(Guid idSelecionado)
-    {
-        Categoria? categoria = SelecionarPorId(idSelecionado);
-
-        if (categoria == null)
-            return false;
-
-        dbContext.Categorias.Remove(categoria);
-        dbContext.SaveChanges();
-
-        return true;
-    }
-
-    public Categoria? SelecionarPorId(Guid idSelecionado)
-    {
-        return dbContext.Categorias.SingleOrDefault(c => c.Id == idSelecionado);
-    }
-
-    public List<Categoria> SelecionarTodos()
-    {
-        return dbContext.Categorias
+        return registros
             .OrderBy(c => c.Titulo)
             .ToList();
     }
 
     public bool ExisteCategoriaPorTitulo(string tituloCategoria, Guid? idIgnorado = null)
     {
-        return dbContext.Categorias.Any(c =>
+        return registros.Any(c =>
             c.Id != idIgnorado &&
             c.Titulo.ToLower() == tituloCategoria.ToLower()
         );
