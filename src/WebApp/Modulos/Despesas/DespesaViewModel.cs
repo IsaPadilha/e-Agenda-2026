@@ -26,3 +26,12 @@ public record EditarDespesaViewModel(
 {
     public List<CategoriaDespesaDto> CategoriasDisponiveis { get; set; } = [];
 };
+
+[ValidateNever]
+public record ExcluirDespesaViewModel(
+    Guid Id,
+    string Descricao,
+    DateOnly DataOcorrencia,
+    decimal Valor,
+    FormaPagamento FormaPagamento
+);

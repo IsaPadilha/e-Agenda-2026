@@ -142,4 +142,40 @@ public sealed class DespesaController(
 
         return RedirectToAction(nameof(Listar));
     }
+
+     [HttpGet]
+    public ActionResult Excluir(Guid id)
+    {
+        Result<DespesaDto> resultado = servicoDespesa.SelecionarPorId(id);
+
+        if (resultado.IsFailed)
+        {
+            TempData["MensagemErro"] = resultado.Errors.First().Message;
+
+            return RedirectToAction(nameof(Listar));
+        }
+
+        DespesaDto dto = resultado.Value;
+
+        ExcluirDespesaViewModel viewModel = new(
+            dto.Id,
+            dto.Descricao,
+            dto.DataOcorrencia,
+            dto.Valor,
+            dto.FormaPagamento
+        );
+
+        return View(viewModel);
+    }
+
+    [HttpPost]
+    public ActionResult Excluir(ExcluirDespesaViewModel excluirVm)
+    {
+        Result resultado = servicoDespesa.Excluir(excluirVm.Id);
+
+        if (resultado.IsFailed)
+            TempData["MensagemErro"] = resultado.Errors.First().Message;
+
+        return RedirectToAction(nameof(Listar));
+    }
 }
