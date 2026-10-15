@@ -1,6 +1,8 @@
 using eAgenda.Dominio.Modulos.Categorias;
 using eAgenda.Dominio.Modulos.Despesas;
+using eAgenda.Dominio.Modulos.Tarefas;
 using eAgenda.Infraestrutura.Modulos.Despesas;
+using eAgenda.Infraestrutura.Modulos.Tarefas;
 using eAgenda.Infraestrutura.Compartilhado.Orm;
 using eAgenda.Infraestrutura.Modulos.Categorias;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +28,6 @@ public static class InjecaoDependencia
         services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmOrm>();
 
         services.AddScoped<IRepositorioDespesa, RepositorioDespesaEmOrm>();
-
+        services.AddScoped<IRepositorioTarefa, RepositorioTarefaEmOrm>();
     }
 }
