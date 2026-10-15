@@ -7,6 +7,11 @@
 
 <form class="card border-primary-subtle shadow-sm mx-auto p-4" style="max-width: 620px;" asp-action="Excluir"
       asp-route-id="@Model.Id" method="post">
+
+    <div class="alert alert-danger border-start border-danger border-4 rounded-3" role="alert">
+        Deseja realmente excluir esta despesa?
+    </div>
+    
     <div class="mb-3">
         <label asp-for="Descricao" class="form-label fw-semibold text-primary text-uppercase small">Descrição</label>
         <input asp-for="Descricao" type="text" class="form-control" readonly>
