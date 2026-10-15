@@ -80,6 +80,28 @@ namespace eAgenda.Infraestrutura.Migrations
                     b.ToTable("TBDespesas", (string)null);
                 });
 
+            modelBuilder.Entity("eAgenda.Dominio.Modulos.Tarefas.Tarefa", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("DataCriacao")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Prioridade")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TBTarefas", (string)null);
+                });
+
             modelBuilder.Entity("TBDespesasCategorias", b =>
                 {
                     b.HasOne("eAgenda.Dominio.Modulos.Categorias.Categoria", null)
