@@ -13,3 +13,16 @@ public record CadastrarDespesaViewModel(
 {
     public List<CategoriaDespesaDto> CategoriasDisponiveis { get; set; } = [];
 };
+
+[ValidateNever]
+public record EditarDespesaViewModel(
+    Guid Id,
+    string Descricao,
+    DateOnly DataOcorrencia,
+    decimal Valor,
+    FormaPagamento FormaPagamento,
+    List<Guid> CategoriasIds
+)
+{
+    public List<CategoriaDespesaDto> CategoriasDisponiveis { get; set; } = [];
+};

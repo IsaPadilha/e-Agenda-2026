@@ -56,6 +56,48 @@ public sealed class ServicoDespesa(
 
     public Result Editar(EditarDespesaDto dto)
     {
+        List<Guid> idsDistintos = dto.CategoriasIds
+                    .Where(id => id != Guid.Empty)
+                    .Distinct()
+                    .ToList();
+
+        if (idsDistintos.Count == 0)
+        {
+            IError erro = new Error("Selecione ao menos uma categoria válida.")
+                .WithMetadata("Campo", nameof(dto.CategoriasIds));
+
+            return Result.Fail(erro);
+        }
+
+        List<Categoria> categoriasSelecionadas = repositorioCategoria
+            .SelecionarTodos()
+            .Where(c => idsDistintos.Contains(c.Id))
+            .ToList();
+
+        Despesa despesaAtualizada = new Despesa(
+            dto.Descricao,
+            dto.DataOcorrencia,
+            dto.Valor,
+            dto.FormaPagamento,
+            categoriasSelecionadas
+        );
+
+        List<ErroValidacao> erros = despesaAtualizada.Validar();
+
+        if (erros.Count > 0)
+        {
+            List<Error> errosResultado = erros
+                .Select(e => new Error(e.Mensagem).WithMetadata("Campo", e.Campo))
+                .ToList();
+
+            return Result.Fail(errosResultado);
+        }
+
+        bool conseguiuEditar = repositorioDespesa.Editar(dto.Id, despesaAtualizada);
+
+        if (!conseguiuEditar)
+            return Result.Fail("Não foi possível editar a despesa.");
+
         return Result.Ok();
     }
 
@@ -66,7 +108,21 @@ public sealed class ServicoDespesa(
 
     public Result<DespesaDto> SelecionarPorId(Guid id)
     {
-        return Result.Ok();
+        Despesa? despesa = repositorioDespesa.SelecionarPorId(id);
+
+        if (despesa == null)
+            return Result.Fail<DespesaDto>("Despesa não encontrada.");
+
+        DespesaDto dto = new(
+            despesa.Id,
+            despesa.Descricao,
+            despesa.DataOcorrencia,
+            despesa.Valor,
+            despesa.FormaPagamento,
+            despesa.Categorias.Select(c => new CategoriaDespesaDto(c.Id, c.Titulo)).ToList()
+        );
+
+        return Result.Ok(dto);
     }
 
     public List<DespesaDto> SelecionarTodos()

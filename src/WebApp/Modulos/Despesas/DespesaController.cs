@@ -70,4 +70,76 @@ public sealed class DespesaController(
 
         return RedirectToAction(nameof(Listar));
     }
+
+    [HttpGet]
+    public ActionResult Editar(Guid id)
+    {
+        Result<DespesaDto> resultado = servicoDespesa.SelecionarPorId(id);
+
+        if (resultado.IsFailed)
+        {
+            TempData["MensagemErro"] = resultado.Errors.First().Message;
+
+            return RedirectToAction(nameof(Listar));
+        }
+
+        DespesaDto dto = resultado.Value;
+
+        EditarDespesaViewModel viewModel = new(
+            id,
+            dto.Descricao,
+            dto.DataOcorrencia,
+            dto.Valor,
+            dto.FormaPagamento,
+            dto.Categorias.Select(c => c.Id).ToList()
+        );
+
+        List<CategoriaDespesaDto> categoriasDtos = servicoCategoria
+            .SelecionarTodos()
+            .Select(c => new CategoriaDespesaDto(c.Id, c.Titulo))
+            .ToList();
+
+        return View(viewModel with { CategoriasDisponiveis = categoriasDtos });
+    }
+
+    [HttpPost]
+    public ActionResult Editar(EditarDespesaViewModel viewModel)
+    {
+        EditarDespesaDto dto = new(
+            viewModel.Id,
+            viewModel.Descricao,
+            viewModel.DataOcorrencia,
+            viewModel.Valor,
+            viewModel.FormaPagamento,
+            viewModel.CategoriasIds
+        );
+
+        Result resultado = servicoDespesa.Editar(dto);
+
+        if (resultado.IsFailed)
+        {
+            if (!resultado.Errors.Any(e => e.HasMetadataKey("Campo")))
+            {
+                TempData["MensagemErro"] = resultado.Errors.First().Message;
+
+                return RedirectToAction(nameof(Listar));
+            }
+
+            foreach (IError erro in resultado.Errors)
+            {
+                string campo = erro.Metadata["Campo"].ToString() ?? string.Empty;
+
+                ModelState.AddModelError(campo, erro.Message);
+            }
+
+            List<CategoriaDespesaDto> categoriasDtos = servicoCategoria
+                .SelecionarTodos()
+                .Select(c => new CategoriaDespesaDto(c.Id, c.Titulo))
+                .ToList();
+
+            return View(viewModel with { CategoriasDisponiveis = categoriasDtos });
+        }
+
+        return RedirectToAction(nameof(Listar));
+    }
 }
