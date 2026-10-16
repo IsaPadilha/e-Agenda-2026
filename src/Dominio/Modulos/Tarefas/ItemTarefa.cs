@@ -4,18 +4,18 @@ namespace eAgenda.Dominio.Modulos.Tarefas;
 
 public sealed class ItemTarefa : EntidadeBase<ItemTarefa>
 {
-    public string Titulo { get; set; } = string.Empty;
     public Guid TarefaId { get; set; }
     public Tarefa Tarefa { get; set; } = null!;
+    public string Titulo { get; set; } = string.Empty;
     public bool Concluido { get; set; }
 
     public ItemTarefa() { }
 
-    public ItemTarefa(string titulo, Tarefa tarefa) : this()
+    public ItemTarefa(Tarefa tarefa, string titulo) : this()
     {
-        Titulo = titulo;
-        Tarefa = tarefa;
         TarefaId = tarefa.Id;
+        Tarefa = tarefa;
+        Titulo = titulo;
     }
 
     public void Concluir()

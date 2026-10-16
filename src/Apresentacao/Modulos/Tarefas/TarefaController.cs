@@ -141,4 +141,79 @@ public class TarefaController(ServicoTarefa servicoTarefa) : Controller
 
         return RedirectToAction(nameof(Listar));
     }
+
+    [HttpGet]
+    public ActionResult GerenciarItens(Guid tarefaId)
+    {
+        Result<TarefaDto> resultado = servicoTarefa.SelecionarPorId(tarefaId);
+
+        if (resultado.IsFailed)
+        {
+            TempData["MensagemErro"] = resultado.Errors.First().Message;
+
+            return RedirectToAction(nameof(Listar));
+        }
+
+        TarefaDto dto = resultado.Value;
+
+        GerenciarItensTarefaViewModel viewModel = new(
+            dto.Id,
+            dto.Titulo,
+            dto.Prioridade,
+            dto.DataCriacao,
+            dto.DataConclusao,
+            dto.PercentualConcluido,
+            dto.Concluida,
+            dto.Itens.Select(i => new ItemTarefaViewModel(
+                i.Id,
+                i.Titulo,
+                i.Concluido
+            )).ToList()
+        );
+
+        return View(viewModel);
+    }
+
+    [HttpPost]
+    public ActionResult AdicionarItem(AdicionarItemTarefaViewModel viewModel)
+    {
+        AdicionarItemTarefaDto dto = new(viewModel.TarefaId, viewModel.Titulo);
+
+        Result resultado = servicoTarefa.AdicionarItem(dto);
+
+        if (resultado.IsFailed)
+            TempData["MensagemErro"] = resultado.Errors.First().Message;
+
+        return RedirectToAction(nameof(GerenciarItens), new { tarefaId = viewModel.TarefaId });
+    }
+
+    [HttpPost]
+    public ActionResult AlterarConclusaoItem(Guid tarefaId, Guid itemId, bool concluido)
+    {
+        AlterarConclusaoItemTarefaDto dto = new(
+            tarefaId,
+            itemId,
+            concluido
+        );
+
+        Result resultado = servicoTarefa.AlterarConclusaoItem(dto);
+
+        if (resultado.IsFailed)
+            TempData["MensagemErro"] = resultado.Errors.First().Message;
+
+        return RedirectToAction(nameof(GerenciarItens), new { tarefaId });
+    }
+
+    [HttpPost]
+    public ActionResult RemoverItem(Guid tarefaId, Guid itemId)
+    {
+        RemoverItemTarefaDto dto = new(tarefaId, itemId);
+
+        Result resultado = servicoTarefa.RemoverItem(dto);
+
+        if (resultado.IsFailed)
+            TempData["MensagemErro"] = resultado.Errors.First().Message;
+
+        return RedirectToAction(nameof(GerenciarItens), new { tarefaId });
+    }
 }
