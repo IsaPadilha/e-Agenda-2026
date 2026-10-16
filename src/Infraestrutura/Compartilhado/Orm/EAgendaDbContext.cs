@@ -12,10 +12,12 @@ public sealed class EAgendaDbContext(DbContextOptions<EAgendaDbContext> options)
     public DbSet<Categoria> Categorias => Set<Categoria>();
     public DbSet<Despesa> Despesas => Set<Despesa>();
     public DbSet<Tarefa> Tarefas => Set<Tarefa>();
+    public DbSet<ItemTarefa> ItensTarefa => Set<ItemTarefa>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new CategoriaConfiguration());
         modelBuilder.ApplyConfiguration(new DespesaConfiguration());
         modelBuilder.ApplyConfiguration(new TarefaConfiguration());
+        modelBuilder.ApplyConfiguration(new ItemTarefaConfiguration());
     }
 }

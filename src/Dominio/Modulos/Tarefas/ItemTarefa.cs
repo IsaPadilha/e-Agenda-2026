@@ -5,6 +5,7 @@ namespace eAgenda.Dominio.Modulos.Tarefas;
 public sealed class ItemTarefa : EntidadeBase<ItemTarefa>
 {
     public string Titulo { get; set; } = string.Empty;
+    public Guid TarefaId { get; set; }
     public Tarefa Tarefa { get; set; } = null!;
     public bool Concluido { get; set; }
 
@@ -14,6 +15,7 @@ public sealed class ItemTarefa : EntidadeBase<ItemTarefa>
     {
         Titulo = titulo;
         Tarefa = tarefa;
+        TarefaId = tarefa.Id;
     }
 
     public void Concluir()

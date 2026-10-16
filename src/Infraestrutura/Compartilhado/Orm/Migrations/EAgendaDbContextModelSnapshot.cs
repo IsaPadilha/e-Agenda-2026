@@ -80,13 +80,45 @@ namespace eAgenda.Infraestrutura.Migrations
                     b.ToTable("TBDespesas", (string)null);
                 });
 
+            modelBuilder.Entity("eAgenda.Dominio.Modulos.Tarefas.ItemTarefa", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Concluido")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("TarefaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TarefaId");
+
+                    b.ToTable("TBItensTarefa", (string)null);
+                });
+
             modelBuilder.Entity("eAgenda.Dominio.Modulos.Tarefas.Tarefa", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("Concluida")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly?>("DataConclusao")
+                        .HasColumnType("date");
+
                     b.Property<DateOnly>("DataCriacao")
                         .HasColumnType("date");
+
+                    b.Property<int>("PercentualConcluido")
+                        .HasColumnType("int");
 
                     b.Property<string>("Prioridade")
                         .IsRequired()
@@ -115,6 +147,22 @@ namespace eAgenda.Infraestrutura.Migrations
                         .HasForeignKey("DespesasId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("eAgenda.Dominio.Modulos.Tarefas.ItemTarefa", b =>
+                {
+                    b.HasOne("eAgenda.Dominio.Modulos.Tarefas.Tarefa", "Tarefa")
+                        .WithMany("Itens")
+                        .HasForeignKey("TarefaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tarefa");
+                });
+
+            modelBuilder.Entity("eAgenda.Dominio.Modulos.Tarefas.Tarefa", b =>
+                {
+                    b.Navigation("Itens");
                 });
 #pragma warning restore 612, 618
         }
