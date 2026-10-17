@@ -154,7 +154,7 @@ namespace eAgenda.Infraestrutura.Migrations
                     b.HasOne("eAgenda.Dominio.Modulos.Tarefas.Tarefa", "Tarefa")
                         .WithMany("Itens")
                         .HasForeignKey("TarefaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.Navigation("Tarefa");
