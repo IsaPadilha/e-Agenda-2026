@@ -52,6 +52,22 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = TW9kdWxvc1xDYXRlZ29yaWFzXFZpZXdzXExpc3Rhci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Academia C\#/eAgenda/src/Apresentacao/Modulos/Contatos/Views/Cadastrar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = TW9kdWxvc1xDb250YXRvc1xWaWV3c1xDYWRhc3RyYXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Academia C\#/eAgenda/src/Apresentacao/Modulos/Contatos/Views/Editar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = TW9kdWxvc1xDb250YXRvc1xWaWV3c1xFZGl0YXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Academia C\#/eAgenda/src/Apresentacao/Modulos/Contatos/Views/Excluir.cshtml]
+build_metadata.AdditionalFiles.TargetPath = TW9kdWxvc1xDb250YXRvc1xWaWV3c1xFeGNsdWlyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Academia C\#/eAgenda/src/Apresentacao/Modulos/Contatos/Views/Listar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = TW9kdWxvc1xDb250YXRvc1xWaWV3c1xMaXN0YXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Academia C\#/eAgenda/src/Apresentacao/Modulos/Despesas/Views/Cadastrar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = TW9kdWxvc1xEZXNwZXNhc1xWaWV3c1xDYWRhc3RyYXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

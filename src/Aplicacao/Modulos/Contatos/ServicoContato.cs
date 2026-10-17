@@ -12,21 +12,12 @@ public sealed class ServicoContato(IRepositorioContato repositorioContato)
 
         List<ErroValidacao> erros = contato.Validar();
 
-        if (repositorioContato.ExisteContatoPorEmail(contato.Email))
+        if (repositorioContato.ExisteContatoPorEmailOuTelefone(contato.Email, contato.Telefone))
         {
             erros.Add(new ErroValidacao
             {
                 Campo = nameof(dto.Email),
-                Mensagem = "Já existe um contato cadastrado com o e-mail informado"
-            });
-        }
-
-        if (repositorioContato.ExisteContatoPorTelefone(contato.Telefone))
-        {
-            erros.Add(new ErroValidacao
-            {
-                Campo = nameof(dto.Telefone),
-                Mensagem = "Já existe um contato cadastrado com o telefone informado"
+                Mensagem = "Já existe um contato cadastrado com o e-mail ou telefone informado"
             });
         }
 
@@ -46,25 +37,16 @@ public sealed class ServicoContato(IRepositorioContato repositorioContato)
     public Result Editar(EditarContatoDto dto)
     {
         Contato contatoAtualizado = new(dto.Nome, dto.Email, dto.Telefone, dto.Cargo, dto.Empresa);
-        contatoAtualizado.Id = dto.Id; // Garante que o ID da entidade é o mesmo que está sendo editado
+        contatoAtualizado.Id = dto.Id;
 
         List<ErroValidacao> erros = contatoAtualizado.Validar();
 
-        if (repositorioContato.ExisteContatoPorEmail(contatoAtualizado.Email, dto.Id))
+        if (repositorioContato.ExisteContatoPorEmailOuTelefone(contatoAtualizado.Email, contatoAtualizado.Telefone, dto.Id))
         {
             erros.Add(new ErroValidacao
             {
                 Campo = nameof(contatoAtualizado.Email),
-                Mensagem = "Já existe um contato cadastrado com o e-mail informado"
-            });
-        }
-
-        if (repositorioContato.ExisteContatoPorTelefone(contatoAtualizado.Telefone, dto.Id))
-        {
-            erros.Add(new ErroValidacao
-            {
-                Campo = nameof(contatoAtualizado.Telefone),
-                Mensagem = "Já existe um contato cadastrado com o telefone informado"
+                Mensagem = "Já existe um contato cadastrado com o e-mail ou telefone informado"
             });
         }
 

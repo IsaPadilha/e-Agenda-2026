@@ -1,0 +1,64 @@
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Listagem de Contatos";
+}
+
+@model List<ContatoDto>;
+@using eAgenda.Aplicacao.Modulos.Contatos
+
+<a class="btn btn-outline-primary rounded-pill px-4 mb-3" asp-action="Cadastrar">Cadastrar Novo</a>
+
+@if (Model.Count == 0)
+{
+    <div class="alert alert-primary border-start border-primary border-4 rounded-3" role="alert">
+        Nenhum contato cadastrado.
+    </div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3">
+        @foreach (ContatoDto c in Model)
+        {
+            <div class="col">
+                <div class="card h-100 border-primary-subtle shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                            <h5 class="card-title mb-0 fw-bold text-primary">@c.Nome</h5>
+                            <span class="badge text-bg-primary rounded-pill">@c.Id.ToString("N")[..8]</span>
+                        </div>
+
+                        <div class="my-2 text-secondary small">
+                            <p class="mb-1">
+                                <i class="bi bi-envelope"></i> <strong>E-mail:</strong> @c.Email
+                            </p>
+                            <p class="mb-1">
+                                <i class="bi bi-telephone"></i> <strong>Telefone:</strong> @c.Telefone
+                            </p>
+
+                            @if (!string.IsNullOrEmpty(c.Cargo))
+                            {
+                                <p class="mb-1">
+                                    <i class="bi bi-briefcase"></i> <strong>Cargo:</strong> @c.Cargo
+                                </p>
+                            }
+
+                            @if (!string.IsNullOrEmpty(c.Empresa))
+                            {
+                                <p class="mb-1">
+                                    <i class="bi bi-building"></i> <strong>Empresa:</strong> @c.Empresa
+                                </p>
+                            }
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-2 mt-auto pt-3 justify-content-end border-top">
+                            <a class="btn btn-outline-primary btn-sm rounded-pill px-3" asp-action="Editar"
+                               asp-route-id="@c.Id">Editar</a>
+                            <a class="btn btn-outline-danger btn-sm rounded-pill px-3" asp-action="Excluir"
+                               asp-route-id="@c.Id">Excluir</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
