@@ -55,6 +55,42 @@ namespace eAgenda.Infraestrutura.Migrations
                     b.ToTable("TBCategorias", (string)null);
                 });
 
+            modelBuilder.Entity("eAgenda.Dominio.Modulos.Compromissos.Compromisso", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Assunto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ContatoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("DataOcorrencia")
+                        .HasColumnType("date");
+
+                    b.Property<TimeOnly>("HoraInicio")
+                        .HasColumnType("time");
+
+                    b.Property<TimeOnly>("HoraTermino")
+                        .HasColumnType("time");
+
+                    b.Property<string>("LocalOuLink")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TipoCompromisso")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContatoId");
+
+                    b.ToTable("Compromisso");
+                });
+
             modelBuilder.Entity("eAgenda.Dominio.Modulos.Contatos.Contato", b =>
                 {
                     b.Property<Guid>("Id")
@@ -178,6 +214,15 @@ namespace eAgenda.Infraestrutura.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("eAgenda.Dominio.Modulos.Compromissos.Compromisso", b =>
+                {
+                    b.HasOne("eAgenda.Dominio.Modulos.Contatos.Contato", "Contato")
+                        .WithMany("Compromissos")
+                        .HasForeignKey("ContatoId");
+
+                    b.Navigation("Contato");
+                });
+
             modelBuilder.Entity("eAgenda.Dominio.Modulos.Tarefas.ItemTarefa", b =>
                 {
                     b.HasOne("eAgenda.Dominio.Modulos.Tarefas.Tarefa", "Tarefa")
@@ -187,6 +232,11 @@ namespace eAgenda.Infraestrutura.Migrations
                         .IsRequired();
 
                     b.Navigation("Tarefa");
+                });
+
+            modelBuilder.Entity("eAgenda.Dominio.Modulos.Contatos.Contato", b =>
+                {
+                    b.Navigation("Compromissos");
                 });
 
             modelBuilder.Entity("eAgenda.Dominio.Modulos.Tarefas.Tarefa", b =>

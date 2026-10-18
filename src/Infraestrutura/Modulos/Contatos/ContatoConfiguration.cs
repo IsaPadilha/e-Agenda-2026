@@ -33,10 +33,10 @@ public sealed class ContatoConfiguration : IEntityTypeConfiguration<Contato>
             .HasMaxLength(100)
             .IsRequired(false);
 
-        // Configuração do relacionamento Um-para-Muitos com Compromisso (se aplicável)
-        //builder.HasMany(c => c.Compromissos)
-        //.WithOne(cp => cp.Contato) // Ajuste para o nome da propriedade de navegação na classe Compromisso, se houver
-        //.HasForeignKey(cp => cp.ContatoId)
-        //.OnDelete(DeleteBehavior.Restrict);
+        //Configuração do relacionamento Um-para-Muitos com Compromisso (se aplicável)
+        builder.HasMany(c => c.Compromissos)
+        .WithOne(cp => cp.Contato)
+        .HasForeignKey(cp => cp.ContatoId)
+        .OnDelete(DeleteBehavior.Restrict);
     }
 }
