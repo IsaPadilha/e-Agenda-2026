@@ -1,5 +1,5 @@
 using eAgenda.Dominio.Compartilhado;
-
+using eAgenda.Dominio.Modulos.Compromissos;
 namespace eAgenda.Dominio.Modulos.Contatos;
 
 public sealed class Contato : EntidadeBase<Contato>
@@ -10,7 +10,7 @@ public sealed class Contato : EntidadeBase<Contato>
     public string? Cargo { get; set; }
     public string? Empresa { get; set; }
 
-    //public List<Compromisso> Compromissos { get; set; } = [];
+    public List<Compromisso> Compromissos { get; set; } = [];
 
     public Contato() { }
     public Contato(string nome, string email, string telefone, string? cargo, string? empresa) : this()
