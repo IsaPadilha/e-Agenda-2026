@@ -15,10 +15,9 @@ public sealed class ContatoController(ServicoContato servicoContato) : Controlle
     }
 
     [HttpGet]
-    public ActionResult Cadastrar()
+    public IActionResult Cadastrar()
     {
         CadastrarContatoViewModel viewModel = new();
-
         return View(viewModel);
     }
 
@@ -63,15 +62,15 @@ public sealed class ContatoController(ServicoContato servicoContato) : Controlle
         if (resultado.IsFailed)
             return RedirectToAction(nameof(Listar));
 
-        ContatoDto dto = resultado.Value;
+        ContatoDto contato = resultado.Value;
 
         EditarContatoViewModel viewModel = new(
-            dto.Id,
-            dto.Nome,
-            dto.Email,
-            dto.Telefone,
-            dto.Cargo,
-            dto.Empresa
+            contato.Id,
+            contato.Nome,
+            contato.Email,
+            contato.Telefone,
+            contato.Cargo,
+            contato.Empresa
         );
 
         return View(viewModel);

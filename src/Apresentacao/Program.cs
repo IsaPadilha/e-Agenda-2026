@@ -1,10 +1,15 @@
 using eAgenda.Aplicacao.Compartilhado;
 using eAgenda.Infraestrutura.Compartilhado;
 using eAgenda.Infraestrutura.Compartilhado.Orm;
+using eAgenda.Infraestrutura.Modulos.Contatos;
+using eAgenda.Aplicacao.Modulos.Contatos;
+using eAgenda.Dominio.Modulos.Contatos;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddScoped<IRepositorioContato, RepositorioContatoEmOrm>();
+builder.Services.AddScoped<ServicoContato>();
 // Configura Camada de Infraestrutura
 builder.Services.AdicionarCamadaInfraestrutura(builder.Configuration);
 // Configura Camada de Aplicação
@@ -16,10 +21,13 @@ builder.Services.AddControllersWithViews().AddRazorOptions(options =>
     // Reseta a configuração padrão do MVC
     options.ViewLocationFormats.Clear();
 
-    // Localização das Views dos módulos: Modulos/Alunos/Apresentacao/Views/Listar.cshtml
-    options.ViewLocationFormats.Add("/Modulos/Modulo{1}s/Views/{0}.cshtml");
+    // Procura na estrutura de pastas: Modulos/[NomeDoModulo]/Views/[Acao].cshtml
+    options.ViewLocationFormats.Add("/Modulos/{1}/Views/{0}.cshtml");
+    options.ViewLocationFormats.Add("/Apresentacao/Modulos/{1}/Views/{0}.cshtml");
 
-    // Localização das Views compartilhadas: /Compartilhado/Apresentacao/Views/_Layout.cshtml
+    // Localização das Views compartilhadas e Layouts
+    options.ViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
+    options.ViewLocationFormats.Add("/Views/{1}/{0}.cshtml");
     options.ViewLocationFormats.Add("/Compartilhado/Views/{0}.cshtml");
 });
 
@@ -37,6 +45,8 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseRouting();
-app.MapDefaultControllerRoute();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

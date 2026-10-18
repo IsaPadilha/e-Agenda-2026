@@ -143,7 +143,7 @@ public sealed class DespesaController(
         return RedirectToAction(nameof(Listar));
     }
 
-     [HttpGet]
+    [HttpGet]
     public ActionResult Excluir(Guid id)
     {
         Result<DespesaDto> resultado = servicoDespesa.SelecionarPorId(id);

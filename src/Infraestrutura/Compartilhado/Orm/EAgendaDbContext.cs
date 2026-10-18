@@ -7,12 +7,15 @@ using eAgenda.Infraestrutura.Modulos.Despesas;
 using eAgenda.Infraestrutura.Modulos.Tarefas;
 namespace eAgenda.Infraestrutura.Compartilhado.Orm;
 
+using eAgenda.Dominio.Modulos.Contatos;
+
 public sealed class EAgendaDbContext(DbContextOptions<EAgendaDbContext> options) : DbContext(options)
 {
     public DbSet<Categoria> Categorias => Set<Categoria>();
     public DbSet<Despesa> Despesas => Set<Despesa>();
     public DbSet<Tarefa> Tarefas => Set<Tarefa>();
     public DbSet<ItemTarefa> ItensTarefa => Set<ItemTarefa>();
+    public DbSet<Contato> Contatos { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new CategoriaConfiguration());
