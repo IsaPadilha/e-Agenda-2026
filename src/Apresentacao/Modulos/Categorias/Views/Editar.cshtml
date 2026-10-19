@@ -1,21 +1,26 @@
-@using eAgenda.WebApp.Modulos.Categorias
 @{
     Layout = "_Layout";
     ViewBag.Titulo = "Edição de Categoria";
 }
 
-@model EditarCategoriaViewModel;
+@model eAgenda.WebApp.Modulos.Categorias.EditarCategoriaViewModel
 
-<form class="card border-primary-subtle shadow-sm mx-auto p-4" style="max-width: 620px;" asp-action="Editar"
-      asp-route-id="@Model.Id" method="post">
+<form class="card border-primary-subtle shadow-sm mx-auto p-4" style="max-width: 620px;" action="/Categoria/Editar"
+      method="post">
+    
+    <!-- CAMPO OCULTO DO ID: Essencial para o C# saber qual registo atualizar -->
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div asp-validation-summary="All" class="text-danger alert alert-danger mb-3"></div>
+
     <div class="mb-3">
         <label asp-for="Titulo" class="form-label fw-semibold text-primary text-uppercase small">Título</label>
-        <input asp-for="Titulo" type="text" class="form-control">
+        <input asp-for="Titulo" name="Titulo" class="form-control" />
         <span asp-validation-for="Titulo" class="text-danger small fw-semibold"></span>
     </div>
 
     <div class="d-flex justify-content-end gap-2 mt-4">
-        <a class="btn btn-outline-primary rounded-pill px-4" asp-action="Listar">Voltar</a>
+        <a class="btn btn-outline-primary rounded-pill px-4" href="/Categoria/Listar">Voltar</a>
         <button class="btn btn-primary rounded-pill px-4" type="submit">Confirmar</button>
     </div>
-</form>"
+</form>

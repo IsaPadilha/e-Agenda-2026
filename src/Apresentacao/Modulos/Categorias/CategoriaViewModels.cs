@@ -1,21 +1,22 @@
-using eAgenda.Aplicacao.Modulos.Despesas;
-using eAgenda.Dominio.Modulos.Despesas;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+
 namespace eAgenda.WebApp.Modulos.Categorias;
 
-public record CadastrarCategoriaViewModel(
+public class CadastrarCategoriaViewModel
+{
+    public string Titulo { get; set; } = string.Empty;
+}
+
+public class EditarCategoriaViewModel
+{
+    public Guid Id { get; set; }
+
     [ValidateNever]
-    string Titulo
-);
+    public string Titulo { get; set; } = string.Empty;
+}
 
-public record EditarCategoriaViewModel(
-    Guid Id,
-
-    [ValidateNever]
-    string Titulo
-);
-
-public record ExcluirCategoriaViewModel(
-    Guid Id,
-    string Titulo
-);
+public class ExcluirCategoriaViewModel
+{
+    public Guid Id { get; set; }
+    public string Titulo { get; set; } = string.Empty;
+}

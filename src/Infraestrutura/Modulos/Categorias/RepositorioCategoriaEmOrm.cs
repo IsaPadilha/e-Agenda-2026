@@ -15,9 +15,15 @@ public sealed class RepositorioCategoriaEmOrm(EAgendaDbContext dbContext) :
 
     public bool ExisteCategoriaPorTitulo(string tituloCategoria, Guid? idIgnorado = null)
     {
+        if (string.IsNullOrWhiteSpace(tituloCategoria))
+            return false;
+
+        var tituloNormalizado = tituloCategoria.Trim().ToLower();
+
         return registros.Any(c =>
-            c.Id != idIgnorado &&
-            c.Titulo.ToLower() == tituloCategoria.ToLower()
+            (!idIgnorado.HasValue || c.Id != idIgnorado.Value) &&
+            c.Titulo != null &&
+            c.Titulo.ToLower() == tituloNormalizado
         );
     }
 }

@@ -11,38 +11,36 @@ public sealed class CategoriaController(ServicoCategoria servicoCategoria) : Con
     [HttpGet]
     public ActionResult Listar()
     {
-        List<CategoriaDto> categorias = servicoCategoria.SelecionarTodos();
+        var categorias = servicoCategoria.SelecionarTodos();
 
-        return View(categorias);
+        return View("~/Modulos/Categorias/Views/Listar.cshtml", categorias);
     }
 
     [HttpGet]
     public ActionResult Cadastrar()
     {
-        CadastrarCategoriaViewModel viewModel = new(string.Empty);
-
-        return View(viewModel);
+        return View("~/Modulos/Categorias/Views/Cadastrar.cshtml");
     }
 
     [HttpPost]
     public ActionResult Cadastrar(CadastrarCategoriaViewModel viewModel)
     {
-        CadastrarCategoriaDto dto = new(viewModel.Titulo ?? string.Empty);
+        if (string.IsNullOrWhiteSpace(viewModel.Titulo))
+        {
+            ModelState.AddModelError("Titulo", "O título é obrigatório.");
+            return View("~/Modulos/Categorias/Views/Cadastrar.cshtml", viewModel);
+        }
 
-        Result<Guid> resultado = servicoCategoria.Cadastrar(dto);
+        var dto = new CadastrarCategoriaDto(viewModel.Titulo);
+        var resultado = servicoCategoria.Cadastrar(dto);
 
         if (resultado.IsFailed)
         {
-            foreach (IError erro in resultado.Errors)
+            foreach (var erro in resultado.Errors)
             {
-                string campo = erro.Metadata["Campo"].ToString() ?? string.Empty;
-
-                ModelState.AddModelError(campo, erro.Message);
-
+                ModelState.AddModelError(string.Empty, erro.Message);
             }
-
-            return View(viewModel);
-
+            return View("~/Modulos/Categorias/Views/Cadastrar.cshtml", viewModel);
         }
 
         return RedirectToAction(nameof(Listar));
@@ -51,42 +49,45 @@ public sealed class CategoriaController(ServicoCategoria servicoCategoria) : Con
     [HttpGet]
     public ActionResult Editar(Guid id)
     {
-        Result<CategoriaDto> resultado = servicoCategoria.SelecionarPorId(id);
+        var resultado = servicoCategoria.SelecionarPorId(id);
 
         if (resultado.IsFailed)
+        {
             return RedirectToAction(nameof(Listar));
+        }
 
-        CategoriaDto dto = resultado.Value;
+        var categoriaDto = resultado.Value;
 
-        EditarCategoriaViewModel viewModel = new(
-            dto.Id,
-            dto.Titulo
-        );
+        var viewModel = new EditarCategoriaViewModel
+        {
+            Id = categoriaDto.Id,
+            Titulo = categoriaDto.Titulo
+        };
 
-        return View(viewModel);
+        return View("~/Modulos/Categorias/Views/Editar.cshtml", viewModel);
     }
 
     [HttpPost]
     public ActionResult Editar(EditarCategoriaViewModel viewModel)
     {
-        EditarCategoriaDto dto = new(
-                    viewModel.Id,
-                    viewModel.Titulo ?? string.Empty
-                );
 
-        Result resultado = servicoCategoria.Editar(dto);
+        if (!ModelState.IsValid)
+        {
+            return View("~/Modulos/Categorias/Views/Editar.cshtml", viewModel);
+        }
+
+        var dto = new EditarCategoriaDto(viewModel.Id, viewModel.Titulo);
+
+        var resultado = servicoCategoria.Editar(dto);
 
         if (resultado.IsFailed)
         {
-            foreach (IError erro in resultado.Errors)
+            foreach (var erro in resultado.Errors)
             {
-                string campo = erro.Metadata["Campo"].ToString() ?? string.Empty;
-
-                ModelState.AddModelError(campo, erro.Message);
+                ModelState.AddModelError(string.Empty, erro.Message);
             }
 
-            return View(viewModel);
-
+            return View("~/Modulos/Categorias/Views/Editar.cshtml", viewModel);
         }
 
         return RedirectToAction(nameof(Listar));
@@ -95,22 +96,38 @@ public sealed class CategoriaController(ServicoCategoria servicoCategoria) : Con
     [HttpGet]
     public ActionResult Excluir(Guid id)
     {
-        Result<CategoriaDto> resultado = servicoCategoria.SelecionarPorId(id);
+        var resultado = servicoCategoria.SelecionarPorId(id);
 
         if (resultado.IsFailed)
+        {
             return RedirectToAction(nameof(Listar));
+        }
 
-        CategoriaDto dto = resultado.Value;
+        var categoriaDto = resultado.Value;
 
-        ExcluirCategoriaViewModel viewModel = new(dto.Id, dto.Titulo);
+        var viewModel = new ExcluirCategoriaViewModel
+        {
+            Id = categoriaDto.Id,
+            Titulo = categoriaDto.Titulo
+        };
 
-        return View(viewModel);
+        return View("~/Modulos/Categorias/Views/Excluir.cshtml", viewModel);
     }
 
     [HttpPost]
     public ActionResult Excluir(ExcluirCategoriaViewModel viewModel)
     {
-        servicoCategoria.Excluir(viewModel.Id);
+        var resultado = servicoCategoria.Excluir(viewModel.Id);
+
+        if (resultado.IsFailed)
+        {
+            foreach (var erro in resultado.Errors)
+            {
+                ModelState.AddModelError(string.Empty, erro.Message);
+            }
+
+            return View("~/Modulos/Categorias/Views/Excluir.cshtml", viewModel);
+        }
 
         return RedirectToAction(nameof(Listar));
     }

@@ -3,40 +3,41 @@
     ViewBag.Titulo = "Listagem de Categorias";
 }
 
-@model List<CategoriaDto>;
-@using eAgenda.Aplicacao.Modulos.Categorias
+@model List<eAgenda.Aplicacao.Modulos.Categorias.CategoriaDto>
 
-
-<a class="btn btn-outline-primary rounded-pill px-4 mb-3" asp-action="Cadastrar">Cadastrar Nova</a>
-
-@if (Model.Count == 0)
-{
-    <div class="alert alert-primary border-start border-primary border-4 rounded-3" role="alert">
-        Nenhuma categoria cadastrada.
+<div class="container py-4" style="max-width: 720px;">
+    <!-- Cabeçalho com o Título e o Botão de Cadastrar bem visíveis e livres -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary fw-bold mb-0">Listagem de Categorias</h2>
+        <a class="btn btn-primary rounded-pill px-4 shadow-sm" href="/Categoria/Cadastrar">Cadastrar Nova</a>
     </div>
-}
-else
-{
-    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-2">
-        @foreach (CategoriaDto c in Model)
-        {
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
-                            <h5 class="card-title mb-0">@c.Titulo</h5>
-                            <span class="badge text-bg-primary rounded-pill">@c.Id.ToString("N")[..8]</span>
-                        </div>
 
-                        <div class="d-flex flex-wrap gap-2 mt-auto justify-content-end">
-                            <a class="btn btn-outline-primary btn-sm rounded-pill px-3" asp-action="Editar"
-                               asp-route-id="@c.Id">Editar</a>
-                            <a class="btn btn-outline-primary btn-sm rounded-pill px-3" asp-action="Excluir"
-                               asp-route-id="@c.Id">Excluir</a>
-                        </div>
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info text-center py-4 shadow-sm border-0 rounded-4 mt-4">
+            Nenhuma categoria cadastrada ainda.
+        </div>
+    }
+    else
+    {
+        <div class="d-flex flex-column gap-3 mt-4">
+            @foreach (var categoria in Model)
+            {
+                <div class="card border-primary-subtle shadow-sm p-4 rounded-4 position-relative">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h4 class="fw-bold text-dark mb-0">@categoria.Titulo</h4>
+                        <span
+                        class="badge bg-primary rounded-pill px-3 py-2 font-monospace">@categoria.Id.ToString()[..8]</span>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-2">
+                        <a class="btn btn-outline-primary rounded-pill px-4 btn-sm"
+                           href="/Categoria/Editar?id=@categoria.Id">Editar</a>
+                        <a class="btn btn-outline-danger rounded-pill px-4 btn-sm"
+                           href="/Categoria/Excluir?id=@categoria.Id">Excluir</a>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
-}
+            }
+        </div>
+    }
+</div>
