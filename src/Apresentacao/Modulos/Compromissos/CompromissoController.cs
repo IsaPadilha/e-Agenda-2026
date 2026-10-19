@@ -7,19 +7,21 @@ namespace eAgenda.WebApp.Modulos.Compromissos;
 
 public sealed class CompromissoController(ServicoCompromisso servicoCompromisso) : Controller
 {
+    private const string CaminhoViews = "~/Modulos/Compromissos/Views";
+
     [HttpGet]
     public ActionResult Listar()
     {
         List<CompromissoDto> compromissos = servicoCompromisso.SelecionarTodos();
 
-        return View(compromissos);
+        return View($"{CaminhoViews}/Listar.cshtml", compromissos);
     }
 
     [HttpGet]
     public IActionResult Cadastrar()
     {
         CadastrarCompromissoViewModel viewModel = new();
-        return View(viewModel);
+        return View($"{CaminhoViews}/Cadastrar.cshtml", viewModel);
     }
 
     [HttpPost]
@@ -57,7 +59,7 @@ public sealed class CompromissoController(ServicoCompromisso servicoCompromisso)
                 }
             }
 
-            return View(viewModel);
+            return View($"{CaminhoViews}/Cadastrar.cshtml", viewModel);
         }
 
         return RedirectToAction(nameof(Listar));
@@ -73,7 +75,6 @@ public sealed class CompromissoController(ServicoCompromisso servicoCompromisso)
 
         CompromissoDto compromisso = resultado.Value;
 
-        // Se o tipo for Presencial, joga o LocalOuLink no Local; caso contrário, joga no Link
         bool ehPresencial = compromisso.TipoCompromisso == TipoCompromisso.Presencial;
 
         EditarCompromissoViewModel viewModel = new(
@@ -89,7 +90,7 @@ public sealed class CompromissoController(ServicoCompromisso servicoCompromisso)
             null
         );
 
-        return View(viewModel);
+        return View($"{CaminhoViews}/Editar.cshtml", viewModel);
     }
 
     [HttpPost]
@@ -128,7 +129,7 @@ public sealed class CompromissoController(ServicoCompromisso servicoCompromisso)
                 }
             }
 
-            return View(viewModel);
+            return View($"{CaminhoViews}/Editar.cshtml", viewModel);
         }
 
         return RedirectToAction(nameof(Listar));
@@ -146,7 +147,7 @@ public sealed class CompromissoController(ServicoCompromisso servicoCompromisso)
 
         ExcluirCompromissoViewModel viewModel = new(dto.Id, dto.Assunto);
 
-        return View(viewModel);
+        return View($"{CaminhoViews}/Excluir.cshtml", viewModel);
     }
 
     [HttpPost]
@@ -161,7 +162,7 @@ public sealed class CompromissoController(ServicoCompromisso servicoCompromisso)
                 ModelState.AddModelError(string.Empty, erro.Message);
             }
 
-            return View(viewModel);
+            return View($"{CaminhoViews}/Excluir.cshtml", viewModel);
         }
 
         return RedirectToAction(nameof(Listar));

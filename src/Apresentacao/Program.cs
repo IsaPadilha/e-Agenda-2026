@@ -2,18 +2,27 @@ using eAgenda.Aplicacao.Compartilhado;
 using eAgenda.Infraestrutura.Compartilhado;
 using eAgenda.Infraestrutura.Compartilhado.Orm;
 using eAgenda.Infraestrutura.Modulos.Contatos;
+using eAgenda.Aplicacao.Modulos.Compromissos;
+using eAgenda.Dominio.Modulos.Compromissos;
+using eAgenda.Infraestrutura.Modulos.Compromissos;
 using eAgenda.Aplicacao.Modulos.Contatos;
 using eAgenda.Dominio.Modulos.Contatos;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IRepositorioContato, RepositorioContatoEmOrm>();
-builder.Services.AddScoped<ServicoContato>();
-// Configura Camada de Infraestrutura
+// Configura Camada de Infraestrutura (Regista automaticamente os repositórios dos módulos)
 builder.Services.AdicionarCamadaInfraestrutura(builder.Configuration);
-// Configura Camada de Aplicação
+
+// Configura Camada de Aplicação (Regista automaticamente os serviços, incluindo ServicoCompromisso e ServicoContato)
 builder.Services.AdicionarCamadaAplicacao();
+
+// Adiciona o serviço de Compromissos:
+builder.Services.AddTransient<ServicoCompromisso>();
+
+// Registo do Repositório e Serviço de Compromissos
+builder.Services.AddScoped<IRepositorioCompromisso, RepositorioCompromissoEmOrm>();
+builder.Services.AddTransient<ServicoCompromisso>();
 
 // Configura Camada de Apresentação
 builder.Services.AddControllersWithViews().AddRazorOptions(options =>
@@ -42,7 +51,6 @@ if (app.Environment.IsDevelopment())
     if (dbContext.Database.IsSqlServer())
         dbContext.Database.Migrate();
 }
-
 
 app.UseRouting();
 app.MapControllerRoute(

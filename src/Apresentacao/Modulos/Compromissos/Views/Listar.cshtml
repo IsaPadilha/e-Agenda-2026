@@ -3,53 +3,49 @@
     ViewBag.Titulo = "Listagem de Compromissos";
 }
 
-@model IEnumerable<eAgenda.Aplicacao.Modulos.Compromissos.CompromissoDto>
+@model List<eAgenda.Aplicacao.Modulos.Compromissos.CompromissoDto>
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="text-primary fw-bold mb-0">Compromissos</h2>
-    <a class="btn btn-primary rounded-pill px-4" asp-action="Cadastrar">Novo Compromisso</a>
-</div>
+<div class="container py-4" style="max-width: 720px;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary fw-bold mb-0">Compromissos</h2>
+        <a class="btn btn-primary rounded-pill px-4 shadow-sm" href="/Compromisso/Cadastrar">Cadastrar Novo</a>
+    </div>
 
-<div class="card border-primary-subtle shadow-sm p-3">
-    <table class="table table-hover align-middle mb-0">
-        <thead class="table-light text-primary text-uppercase small">
-            <tr>
-                <th>Assunto</th>
-                <th>Data</th>
-                <th>Horário</th>
-                <th>Tipo</th>
-                <th>Local / Link</th>
-                <th>Contato</th>
-                <th class="text-end">Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (!Model.Any())
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info text-center py-4 shadow-sm border-0 rounded-4 mt-4">
+            Nenhum compromisso cadastrado ainda.
+        </div>
+    }
+    else
+    {
+        <div class="d-flex flex-column gap-3 mt-4">
+            @foreach (var compromisso in Model)
             {
-                <tr>
-                    <td colspan="7" class="text-center text-muted py-4">Nenhum compromisso cadastrado.</td>
-                </tr>
+                <div class="card border-primary-subtle shadow-sm p-4 rounded-4 position-relative">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h4 class="fw-bold text-dark mb-0">@compromisso.Assunto</h4>
+                        <span
+                        class="badge bg-primary rounded-pill px-3 py-2 font-monospace">@compromisso.Id.ToString()[..8]</span>
+                    </div>
+
+                    <p class="text-secondary small mb-1">
+                        📅 @compromisso.DataOcorrencia.ToShortDateString() | 🕒 @compromisso.HoraInicio -
+                        @compromisso.HoraTermino
+                    </p>
+
+                    <p class="text-muted small mb-3">
+                        📍 <strong>@compromisso.TipoCompromisso:</strong> @compromisso.LocalOuLink
+                    </p>
+
+                    <div class="d-flex justify-content-end gap-2 mt-2">
+                        <a class="btn btn-outline-primary rounded-pill px-4 btn-sm"
+                           href="/Compromisso/Editar?id=@compromisso.Id">Editar</a>
+                        <a class="btn btn-outline-danger rounded-pill px-4 btn-sm"
+                           href="/Compromisso/Excluir?id=@compromisso.Id">Excluir</a>
+                    </div>
+                </div>
             }
-            else
-            {
-                @foreach (var c in Model)
-                {
-                    <tr>
-                        <td class="fw-semibold">@c.Assunto</td>
-                        <td>@c.DataOcorrencia.ToString("dd/MM/yyyy")</td>
-                        <td>@c.HoraInicio.ToString("HH:mm") - @c.HoraTermino.ToString("HH:mm")</td>
-                        <td>@c.TipoCompromisso</td>
-                        <td>@c.LocalOuLink</td>
-                        <td>@(c.NomeContato ?? "-")</td>
-                        <td class="text-end">
-                            <a class="btn btn-sm btn-outline-primary rounded-pill me-1" asp-action="Editar"
-                               asp-route-id="@c.Id">Editar</a>
-                            <a class="btn btn-sm btn-outline-danger rounded-pill" asp-action="Excluir"
-                               asp-route-id="@c.Id">Excluir</a>
-                        </td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
+        </div>
+    }
 </div>
