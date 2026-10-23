@@ -125,7 +125,7 @@ namespace eAgenda.Infraestrutura.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateOnly>("DataOcorrencia")
+                    b.Property<DateOnly>("Data")
                         .HasColumnType("date");
 
                     b.Property<string>("Descricao")
@@ -133,9 +133,9 @@ namespace eAgenda.Infraestrutura.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("FormaPagamento")
+                    b.Property<int>("FormaPagamento")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Valor")
                         .HasColumnType("decimal(18, 2)");

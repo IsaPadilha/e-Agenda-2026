@@ -24,6 +24,16 @@ public abstract class RepositorioBaseEmOrm<T>(EAgendaDbContext dbContext) where 
 
         dbContext.SaveChanges();
 
+        Console.WriteLine("=== ANTES ===");
+    Console.WriteLine(entidadeSelecionada);
+
+    entidadeSelecionada.Atualizar(entidadeAtualizada);
+
+    Console.WriteLine("=== DEPOIS ===");
+    Console.WriteLine(entidadeSelecionada);
+
+    dbContext.SaveChanges();
+
         return true;
     }
 

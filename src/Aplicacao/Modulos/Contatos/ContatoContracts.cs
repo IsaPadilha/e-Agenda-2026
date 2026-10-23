@@ -9,13 +9,7 @@ public record ContatoDto(
     string? Empresa
 );
 
-public record CadastrarContatoDto(
-    string Nome,
-    string Email,
-    string Telefone,
-    string? Cargo,
-    string? Empresa
-);
+public record CadastrarContatoDto(string Nome, string Email, string Telefone, string Cargo, string Empresa);
 
 public record EditarContatoDto(
     Guid Id,

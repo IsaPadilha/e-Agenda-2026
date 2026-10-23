@@ -1,4 +1,5 @@
 using eAgenda.Aplicacao.Modulos.Contatos;
+using eAgenda.Dominio.Modulos.Contatos;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,49 +7,54 @@ namespace eAgenda.WebApp.Modulos.Contatos;
 
 public sealed class ContatoController(ServicoContato servicoContato) : Controller
 {
+    private const string CaminhoViews = "~/Modulos/Contatos/Views";
+
     [HttpGet]
     public ActionResult Listar()
     {
         List<ContatoDto> contatos = servicoContato.SelecionarTodos();
 
-        return View(contatos);
+        return View($"{CaminhoViews}/Listar.cshtml", contatos);
     }
 
     [HttpGet]
     public IActionResult Cadastrar()
     {
         CadastrarContatoViewModel viewModel = new();
-        return View(viewModel);
+        return View($"{CaminhoViews}/Cadastrar.cshtml", viewModel);
     }
 
     [HttpPost]
     public ActionResult Cadastrar(CadastrarContatoViewModel viewModel)
     {
+        if (!ModelState.IsValid)
+            return View($"{CaminhoViews}/Cadastrar.cshtml", viewModel);
+
         CadastrarContatoDto dto = new(
             viewModel.Nome ?? string.Empty,
             viewModel.Email ?? string.Empty,
             viewModel.Telefone ?? string.Empty,
-            viewModel.Cargo,
-            viewModel.Empresa
+            viewModel.Cargo ?? string.Empty,
+            viewModel.Empresa ?? string.Empty
         );
 
         Result<Guid> resultado = servicoContato.Cadastrar(dto);
 
         if (resultado.IsFailed)
         {
-            foreach (IError erro in resultado.Errors)
+            foreach (var erro in resultado.Errors)
             {
-                if (erro.Metadata.TryGetValue("Campo", out object? campoObj) && campoObj is string campo)
+                // Converte o object do metadata para string de forma segura
+                string campo = string.Empty;
+                if (erro.Metadata.ContainsKey("Campo") && erro.Metadata["Campo"] is string valorCampo)
                 {
-                    ModelState.AddModelError(campo, erro.Message);
+                    campo = valorCampo;
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, erro.Message);
-                }
+
+                ModelState.AddModelError(campo, erro.Message);
             }
 
-            return View(viewModel);
+            return View($"{CaminhoViews}/Cadastrar.cshtml", viewModel);
         }
 
         return RedirectToAction(nameof(Listar));
@@ -64,28 +70,31 @@ public sealed class ContatoController(ServicoContato servicoContato) : Controlle
 
         ContatoDto contato = resultado.Value;
 
-        EditarContatoViewModel viewModel = new(
-            contato.Id,
-            contato.Nome,
-            contato.Email,
-            contato.Telefone,
-            contato.Cargo,
-            contato.Empresa
-        );
 
-        return View(viewModel);
+        EditarContatoViewModel viewModel = new()
+        {
+            Id = contato.Id,
+            Nome = contato.Nome,
+            Email = contato.Email,
+            Telefone = contato.Telefone,
+            Empresa = contato.Empresa,
+            Cargo = contato.Cargo
+        };
+
+        return View($"{CaminhoViews}/Editar.cshtml", viewModel);
     }
 
     [HttpPost]
     public ActionResult Editar(EditarContatoViewModel viewModel)
     {
+
         EditarContatoDto dto = new(
             viewModel.Id,
             viewModel.Nome ?? string.Empty,
             viewModel.Email ?? string.Empty,
             viewModel.Telefone ?? string.Empty,
-            viewModel.Cargo,
-            viewModel.Empresa
+            viewModel.Cargo ?? string.Empty,
+            viewModel.Empresa ?? string.Empty
         );
 
         Result resultado = servicoContato.Editar(dto);
@@ -104,7 +113,7 @@ public sealed class ContatoController(ServicoContato servicoContato) : Controlle
                 }
             }
 
-            return View(viewModel);
+            return View($"{CaminhoViews}/Editar.cshtml", viewModel);
         }
 
         return RedirectToAction(nameof(Listar));
@@ -120,9 +129,13 @@ public sealed class ContatoController(ServicoContato servicoContato) : Controlle
 
         ContatoDto dto = resultado.Value;
 
-        ExcluirContatoViewModel viewModel = new(dto.Id, dto.Nome);
+        ExcluirContatoViewModel viewModel = new()
+        {
+            Id = dto.Id,
+            Nome = dto.Nome
+        };
 
-        return View(viewModel);
+        return View($"{CaminhoViews}/Excluir.cshtml", viewModel);
     }
 
     [HttpPost]
@@ -137,7 +150,7 @@ public sealed class ContatoController(ServicoContato servicoContato) : Controlle
                 ModelState.AddModelError(string.Empty, erro.Message);
             }
 
-            return View(viewModel);
+            return View($"{CaminhoViews}/Excluir.cshtml", viewModel);
         }
 
         return RedirectToAction(nameof(Listar));

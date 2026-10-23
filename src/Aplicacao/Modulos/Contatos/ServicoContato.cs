@@ -8,7 +8,7 @@ public sealed class ServicoContato(IRepositorioContato repositorioContato)
 {
     public Result<Guid> Cadastrar(CadastrarContatoDto dto)
     {
-        Contato contato = new(dto.Nome, dto.Email, dto.Telefone, dto.Cargo, dto.Empresa);
+        Contato contato = new(dto.Nome, dto.Email, dto.Telefone, dto.Empresa, dto.Cargo);
 
         List<ErroValidacao> erros = contato.Validar();
 
@@ -36,7 +36,7 @@ public sealed class ServicoContato(IRepositorioContato repositorioContato)
 
     public Result Editar(EditarContatoDto dto)
     {
-        Contato contatoAtualizado = new(dto.Nome, dto.Email, dto.Telefone, dto.Cargo, dto.Empresa);
+        Contato contatoAtualizado = new(dto.Nome, dto.Email, dto.Telefone, dto.Empresa, dto.Cargo);
         contatoAtualizado.Id = dto.Id;
 
         List<ErroValidacao> erros = contatoAtualizado.Validar();

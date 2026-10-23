@@ -1,38 +1,26 @@
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-
 namespace eAgenda.WebApp.Modulos.Contatos;
 
-public record CadastrarContatoViewModel(
-    [ValidateNever]
-    string Nome,
-    [ValidateNever]
-    string Email,
-    [ValidateNever]
-    string Telefone,
-    [ValidateNever]
-    string? Cargo,
-    [ValidateNever]
-    string? Empresa
-)
+public class CadastrarContatoViewModel
 {
-    public CadastrarContatoViewModel() : this(string.Empty, string.Empty, string.Empty, null, null) { }
+    public string Nome { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Telefone { get; set; } = string.Empty;
+    public string? Empresa { get; set; }
+    public string? Cargo { get; set; }
 }
 
-public record EditarContatoViewModel(
-    Guid Id,
-    [ValidateNever]
-    string Nome,
-    [ValidateNever]
-    string Email,
-    [ValidateNever]
-    string Telefone,
-    [ValidateNever]
-    string? Cargo,
-    [ValidateNever]
-    string? Empresa
-);
+public class EditarContatoViewModel
+{
+    public Guid Id { get; set; }
+    public string Nome { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Telefone { get; set; } = string.Empty;
+    public string? Empresa { get; set; }
+    public string? Cargo { get; set; }
+}
 
-public record ExcluirContatoViewModel(
-    Guid Id,
-    string Nome
-);
+public class ExcluirContatoViewModel
+{
+    public Guid Id { get; set; }
+    public string Nome { get; set; } = string.Empty;
+}

@@ -24,6 +24,9 @@ builder.Services.AddTransient<ServicoCompromisso>();
 builder.Services.AddScoped<IRepositorioCompromisso, RepositorioCompromissoEmOrm>();
 builder.Services.AddTransient<ServicoCompromisso>();
 
+builder.Services.AddScoped<IRepositorioContato, RepositorioContatoEmOrm>();
+builder.Services.AddTransient<ServicoContato>();
+
 // Configura Camada de Apresentação
 builder.Services.AddControllersWithViews().AddRazorOptions(options =>
 {

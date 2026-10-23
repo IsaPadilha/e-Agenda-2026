@@ -7,7 +7,7 @@ public record CategoriaDespesaDto(Guid Id, string Titulo);
 public record DespesaDto(
     Guid Id,
     string Descricao,
-    DateOnly DataOcorrencia,
+    DateOnly Data,
     decimal Valor,
     FormaPagamento FormaPagamento,
     List<CategoriaDespesaDto> Categorias
@@ -15,7 +15,7 @@ public record DespesaDto(
 
 public record CadastrarDespesaDto(
     string Descricao,
-    DateOnly DataOcorrencia,
+    DateOnly Data,
     decimal Valor,
     FormaPagamento FormaPagamento,
     List<Guid> CategoriasIds
@@ -24,7 +24,7 @@ public record CadastrarDespesaDto(
 public record EditarDespesaDto(
     Guid Id,
     string Descricao,
-    DateOnly DataOcorrencia,
+    DateOnly Data,
     decimal Valor,
     FormaPagamento FormaPagamento,
     List<Guid> CategoriasIds

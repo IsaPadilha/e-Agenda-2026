@@ -12,7 +12,7 @@ public sealed class ServicoDespesa(
 {
     public Result<Guid> Cadastrar(CadastrarDespesaDto dto)
     {
-        List<Guid> idsDistintos = dto.CategoriasIds
+        List<Guid> idsDistintos = (dto.CategoriasIds ?? new List<Guid>())
             .Where(id => id != Guid.Empty)
             .Distinct()
             .ToList();
@@ -32,7 +32,7 @@ public sealed class ServicoDespesa(
 
         Despesa despesa = new Despesa(
             dto.Descricao,
-            dto.DataOcorrencia,
+            dto.Data,
             dto.Valor,
             dto.FormaPagamento,
             categoriasSelecionadas
@@ -56,13 +56,18 @@ public sealed class ServicoDespesa(
 
     public Result Editar(EditarDespesaDto dto)
     {
+        Console.WriteLine($"ID: {dto.Id}");
+        Console.WriteLine($"Categorias: {dto.CategoriasIds.Count}");
+
         List<Guid> idsDistintos = dto.CategoriasIds
-                    .Where(id => id != Guid.Empty)
-                    .Distinct()
-                    .ToList();
+            .Where(id => id != Guid.Empty)
+            .Distinct()
+            .ToList();
 
         if (idsDistintos.Count == 0)
         {
+            Console.WriteLine("Nenhuma categoria válida.");
+
             IError erro = new Error("Selecione ao menos uma categoria válida.")
                 .WithMetadata("Campo", nameof(dto.CategoriasIds));
 
@@ -74,9 +79,9 @@ public sealed class ServicoDespesa(
             .Where(c => idsDistintos.Contains(c.Id))
             .ToList();
 
-        Despesa despesaAtualizada = new Despesa(
+        Despesa despesaAtualizada = new(
             dto.Descricao,
-            dto.DataOcorrencia,
+            dto.Data,
             dto.Valor,
             dto.FormaPagamento,
             categoriasSelecionadas
@@ -86,6 +91,9 @@ public sealed class ServicoDespesa(
 
         if (erros.Count > 0)
         {
+            foreach (var erro in erros)
+                Console.WriteLine($"Erro validação: {erro.Mensagem}");
+
             List<Error> errosResultado = erros
                 .Select(e => new Error(e.Mensagem).WithMetadata("Campo", e.Campo))
                 .ToList();
@@ -94,6 +102,8 @@ public sealed class ServicoDespesa(
         }
 
         bool conseguiuEditar = repositorioDespesa.Editar(dto.Id, despesaAtualizada);
+
+        Console.WriteLine($"Conseguiu editar: {conseguiuEditar}");
 
         if (!conseguiuEditar)
             return Result.Fail("Não foi possível editar a despesa.");
@@ -121,7 +131,7 @@ public sealed class ServicoDespesa(
         DespesaDto dto = new(
             despesa.Id,
             despesa.Descricao,
-            despesa.DataOcorrencia,
+            despesa.Data,
             despesa.Valor,
             despesa.FormaPagamento,
             despesa.Categorias.Select(c => new CategoriaDespesaDto(c.Id, c.Titulo)).ToList()
@@ -137,7 +147,7 @@ public sealed class ServicoDespesa(
             .Select(d => new DespesaDto(
                 d.Id,
                 d.Descricao,
-                d.DataOcorrencia,
+                d.Data,
                 d.Valor,
                 d.FormaPagamento,
                 d.Categorias.Select(c => new CategoriaDespesaDto(c.Id, c.Titulo)).ToList()

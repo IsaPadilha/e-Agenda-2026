@@ -3,62 +3,50 @@
     ViewBag.Titulo = "Listagem de Contatos";
 }
 
-@model List<ContatoDto>;
-@using eAgenda.Aplicacao.Modulos.Contatos
+@model List<eAgenda.Aplicacao.Modulos.Contatos.ContatoDto>
 
-<a class="btn btn-outline-primary rounded-pill px-4 mb-3" asp-action="Cadastrar">Cadastrar Novo</a>
-
-@if (Model.Count == 0)
-{
-    <div class="alert alert-primary border-start border-primary border-4 rounded-3" role="alert">
-        Nenhum contato cadastrado.
+<div class="container py-4" style="max-width: 720px;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary fw-bold mb-0">Contatos</h2>
+        <a class="btn btn-primary rounded-pill px-4 shadow-sm" href="/Contato/Cadastrar">Cadastrar Novo</a>
     </div>
-}
-else
-{
-    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3">
-        @foreach (ContatoDto c in Model)
-        {
-            <div class="col">
-                <div class="card h-100 border-primary-subtle shadow-sm">
-                    <div class="card-body d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
-                            <h5 class="card-title mb-0 fw-bold text-primary">@c.Nome</h5>
-                            <span class="badge text-bg-primary rounded-pill">@c.Id.ToString("N")[..8]</span>
-                        </div>
 
-                        <div class="my-2 text-secondary small">
-                            <p class="mb-1">
-                                <i class="bi bi-envelope"></i> <strong>E-mail:</strong> @c.Email
-                            </p>
-                            <p class="mb-1">
-                                <i class="bi bi-telephone"></i> <strong>Telefone:</strong> @c.Telefone
-                            </p>
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info text-center py-4 shadow-sm border-0 rounded-4 mt-4">
+            Nenhum contato cadastrado ainda.
+        </div>
+    }
+    else
+    {
+        <div class="d-flex flex-column gap-3 mt-4">
+            @foreach (var contato in Model)
+            {
+                <div class="card border-primary-subtle shadow-sm p-4 rounded-4 position-relative">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h4 class="fw-bold text-dark mb-0">@contato.Nome</h4>
+                        <span class="badge bg-primary rounded-pill px-3 py-2 font-monospace">@contato.Id.ToString()[..8]</span>
+                    </div>
 
-                            @if (!string.IsNullOrEmpty(c.Cargo))
-                            {
-                                <p class="mb-1">
-                                    <i class="bi bi-briefcase"></i> <strong>Cargo:</strong> @c.Cargo
-                                </p>
-                            }
+                    <p class="text-secondary small mb-1">
+                        📧 @contato.Email | 📱 @contato.Telefone
+                    </p>
 
-                            @if (!string.IsNullOrEmpty(c.Empresa))
-                            {
-                                <p class="mb-1">
-                                    <i class="bi bi-building"></i> <strong>Empresa:</strong> @c.Empresa
-                                </p>
-                            }
-                        </div>
+                    @if (!string.IsNullOrEmpty(contato.Empresa))
+                    {
+                        <p class="text-muted small mb-3">
+                            🏢 @contato.Empresa @(!string.IsNullOrEmpty(contato.Cargo) ? $"({contato.Cargo})" : "")
+                        </p>
+                    }
 
-                        <div class="d-flex flex-wrap gap-2 mt-auto pt-3 justify-content-end border-top">
-                            <a class="btn btn-outline-primary btn-sm rounded-pill px-3" asp-action="Editar"
-                               asp-route-id="@c.Id">Editar</a>
-                            <a class="btn btn-outline-danger btn-sm rounded-pill px-3" asp-action="Excluir"
-                               asp-route-id="@c.Id">Excluir</a>
-                        </div>
+                    <div class="d-flex justify-content-end gap-2 mt-2">
+                        <a class="btn btn-outline-primary rounded-pill px-4 btn-sm"
+                           href="/Contato/Editar?id=@contato.Id">Editar</a>
+                        <a class="btn btn-outline-danger rounded-pill px-4 btn-sm"
+                           href="/Contato/Excluir?id=@contato.Id">Excluir</a>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
-}
+            }
+        </div>
+    }
+</div>

@@ -7,7 +7,7 @@
 
 @model List<DespesaDto>;
 
-<a class="btn btn-outline-primary rounded-pill px-4 mb-3" asp-action="Cadastrar">Cadastrar Nova</a>
+<a class="btn btn-outline-primary rounded-pill px-4 mb-3" href="/Despesa/Cadastrar">Cadastrar Nova</a>
 
 @if (!string.IsNullOrWhiteSpace(TempData["MensagemErro"]?.ToString()))
 {
@@ -47,7 +47,7 @@ else
 
                         <dl class="row g-2 mb-4">
                             <dt class="col-5 text-secondary fw-semibold">Data de Ocorrência</dt>
-                            <dd class="col-7 mb-0">@d.DataOcorrencia.ToShortDateString()</dd>
+                            <dd class="col-7 mb-0">@d.Data.ToShortDateString()</dd>
 
                             <dt class="col-5 text-secondary fw-semibold">Forma de Pagamento</dt>
                             @if (d.FormaPagamento == FormaPagamento.AVista)
@@ -68,10 +68,10 @@ else
                         </dl>
 
                         <div class="d-flex flex-wrap gap-2 mt-auto justify-content-end">
-                            <a class="btn btn-outline-primary btn-sm rounded-pill px-3" asp-action="Editar"
-                               asp-route-id="@d.Id">Editar</a>
-                            <a class="btn btn-outline-primary btn-sm rounded-pill px-3" asp-action="Excluir"
-                               asp-route-id="@d.Id">Excluir</a>
+                            <a class="btn btn-outline-primary btn-sm rounded-pill px-3"
+                               href="/Despesa/Editar?id=@d.Id">Editar</a>
+                            <a class="btn btn-outline-primary btn-sm rounded-pill px-3"
+                               href="/Despesa/Excluir?id=@d.Id">Excluir</a>
                         </div>
                     </div>
                 </div>

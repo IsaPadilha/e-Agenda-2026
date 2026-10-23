@@ -17,7 +17,7 @@ public class RepositorioDespesaEmOrm(EAgendaDbContext dbContext) :
     public override List<Despesa> SelecionarTodos()
     {
         return registros
-            .OrderByDescending(d => d.DataOcorrencia)
+            .OrderByDescending(d => d.Data)
             .ThenBy(d => d.Descricao)
             .Include(d => d.Categorias)
             .ToList();

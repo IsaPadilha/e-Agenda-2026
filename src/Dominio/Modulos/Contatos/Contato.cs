@@ -71,7 +71,7 @@ public sealed class Contato : EntidadeBase<Contato>
 
         else
         {
-            string padraoTelefone = @"^\(\d{2}\)\s\d{4,5}-\d{4}$";
+            string padraoTelefone = @"^\(\d{2}\)\s?\d{4,5}-\d{4}$";
             if (!System.Text.RegularExpressions.Regex.IsMatch(Telefone, padraoTelefone))
             {
                 erros.Add(new ErroValidacao

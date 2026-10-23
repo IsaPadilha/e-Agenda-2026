@@ -7,7 +7,7 @@ namespace eAgenda.Dominio.Modulos.Despesas;
 public sealed class Despesa : EntidadeBase<Despesa>
 {
     public string Descricao { get; set; } = string.Empty;
-    public DateOnly DataOcorrencia { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
+    public DateOnly Data { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
     public decimal Valor { get; set; }
     public FormaPagamento FormaPagamento { get; set; }
     public List<Categoria> Categorias { get; set; } = [];
@@ -16,14 +16,14 @@ public sealed class Despesa : EntidadeBase<Despesa>
 
     public Despesa(
         string descricao,
-        DateOnly dataOcorrencia,
+        DateOnly data,
         decimal valor,
         FormaPagamento formaPagamento,
         List<Categoria> categorias
     )
     {
         Descricao = descricao ?? string.Empty;
-        DataOcorrencia = dataOcorrencia;
+        Data = data;
         Valor = valor;
         FormaPagamento = formaPagamento;
         Categorias = categorias;
@@ -42,11 +42,11 @@ public sealed class Despesa : EntidadeBase<Despesa>
             });
         }
 
-        if (DataOcorrencia == DateOnly.MinValue)
+        if (Data == DateOnly.MinValue)
         {
             erros.Add(new ErroValidacao
             {
-                Campo = nameof(DataOcorrencia),
+                Campo = nameof(Data),
                 Mensagem = "O campo \"Data de Ocorrência\" deve conter uma data válida."
             });
         }
@@ -75,7 +75,7 @@ public sealed class Despesa : EntidadeBase<Despesa>
     public override void Atualizar(Despesa entidadeAtualizada)
     {
         Descricao = entidadeAtualizada.Descricao;
-        DataOcorrencia = entidadeAtualizada.DataOcorrencia;
+        Data = entidadeAtualizada.Data;
         Valor = entidadeAtualizada.Valor;
         FormaPagamento = entidadeAtualizada.FormaPagamento;
         Categorias = entidadeAtualizada.Categorias;
