@@ -8,10 +8,13 @@
 <form class="card border-primary-subtle shadow-sm mx-auto p-4" style="max-width: 620px;" action="/Categoria/Editar"
       method="post">
     
-    <!-- CAMPO OCULTO DO ID: Essencial para o C# saber qual registo atualizar -->
+
     <input type="hidden" name="Id" value="@Model.Id" />
 
-    <div asp-validation-summary="All" class="text-danger alert alert-danger mb-3"></div>
+    @if (ViewData.ModelState.ContainsKey(string.Empty) && ViewData.ModelState[string.Empty]!.Errors.Count > 0)
+    {
+        <div asp-validation-summary="ModelOnly" class="text-danger alert alert-danger mb-3" role="alert"></div>
+    }
 
     <div class="mb-3">
         <label asp-for="Titulo" class="form-label fw-semibold text-primary text-uppercase small">Título</label>

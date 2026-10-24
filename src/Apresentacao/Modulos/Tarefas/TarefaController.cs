@@ -7,23 +7,26 @@ namespace eAgenda.WebApp.Modulos.Tarefas;
 
 public class TarefaController(ServicoTarefa servicoTarefa) : Controller
 {
+    private const string CaminhoViews = "~/Modulos/Tarefas/Views";
+
     [HttpGet]
     public ActionResult Listar()
     {
         List<TarefaDto> dtos = servicoTarefa.SelecionarTodas();
 
-        return View(dtos);
+        return View($"{CaminhoViews}/Listar.cshtml", dtos);
     }
 
     [HttpGet]
     public ActionResult Cadastrar()
     {
-        CadastrarTarefaViewModel viewModel = new(
-            string.Empty,
-            PrioridadeTarefa.Normal
-        );
+        var viewModel = new CadastrarTarefaViewModel
+        {
+            Titulo = string.Empty,
+            Prioridade = PrioridadeTarefa.Normal
+        };
 
-        return View(viewModel);
+        return View($"{CaminhoViews}/Cadastrar.cshtml", viewModel);
     }
 
     [HttpPost]
@@ -40,12 +43,14 @@ public class TarefaController(ServicoTarefa servicoTarefa) : Controller
         {
             foreach (IError erro in resultado.Errors)
             {
-                string campo = erro.Metadata["Campo"].ToString() ?? string.Empty;
+                string campo = erro.Metadata.TryGetValue("Campo", out var valor)
+                    ? valor?.ToString() ?? string.Empty
+                    : string.Empty;
 
                 ModelState.AddModelError(campo, erro.Message);
             }
 
-            return View(viewModel);
+            return View($"{CaminhoViews}/Cadastrar.cshtml", viewModel);
         }
 
         return RedirectToAction(nameof(Listar));
@@ -54,54 +59,44 @@ public class TarefaController(ServicoTarefa servicoTarefa) : Controller
     [HttpGet]
     public ActionResult Editar(Guid id)
     {
-        Result<TarefaDto> resultado = servicoTarefa.SelecionarPorId(id);
+        var resultado = servicoTarefa.SelecionarPorId(id);
 
         if (resultado.IsFailed)
         {
             TempData["MensagemErro"] = resultado.Errors.First().Message;
-
             return RedirectToAction(nameof(Listar));
         }
 
-        TarefaDto dto = resultado.Value;
+        var dto = resultado.Value;
 
-        EditarTarefaViewModel viewModel = new(
-            id,
-            dto.Titulo,
-            dto.Prioridade
-        );
+        var viewModel = new EditarTarefaViewModel
+        {
+            Id = dto.Id,
+            Titulo = dto.Titulo,
+            Prioridade = dto.Prioridade
+        };
 
-        return View(viewModel);
+        return View($"{CaminhoViews}/Editar.cshtml", viewModel);
     }
 
     [HttpPost]
     public ActionResult Editar(EditarTarefaViewModel viewModel)
     {
-        EditarTarefaDto dto = new(
-            viewModel.Id,
-            viewModel.Titulo,
-            viewModel.Prioridade
-        );
+        if (!ModelState.IsValid)
+        {
+            return View($"{CaminhoViews}/Editar.cshtml", viewModel);
+        }
 
-        Result resultado = servicoTarefa.Editar(dto);
+        var dto = new EditarTarefaDto(viewModel.Id, viewModel.Titulo, viewModel.Prioridade);
+        var resultado = servicoTarefa.Editar(dto);
 
         if (resultado.IsFailed)
         {
-            if (!resultado.Errors.Any(e => e.HasMetadataKey("Campo")))
+            foreach (var erro in resultado.Errors)
             {
-                TempData["MensagemErro"] = resultado.Errors.First().Message;
-
-                return RedirectToAction(nameof(Listar));
+                ModelState.AddModelError(string.Empty, erro.Message);
             }
-
-            foreach (IError erro in resultado.Errors)
-            {
-                string campo = erro.Metadata["Campo"].ToString() ?? string.Empty;
-
-                ModelState.AddModelError(campo, erro.Message);
-            }
-
-            return View(viewModel);
+            return View($"{CaminhoViews}/Editar.cshtml", viewModel);
         }
 
         return RedirectToAction(nameof(Listar));
@@ -110,34 +105,40 @@ public class TarefaController(ServicoTarefa servicoTarefa) : Controller
     [HttpGet]
     public ActionResult Excluir(Guid id)
     {
-        Result<TarefaDto> resultado = servicoTarefa.SelecionarPorId(id);
+        var resultado = servicoTarefa.SelecionarPorId(id);
 
         if (resultado.IsFailed)
         {
             TempData["MensagemErro"] = resultado.Errors.First().Message;
-
             return RedirectToAction(nameof(Listar));
         }
 
-        TarefaDto dto = resultado.Value;
+        var dto = resultado.Value;
 
-        ExcluirTarefaViewModel viewModel = new(
-            id,
-            dto.Titulo,
-            dto.Prioridade,
-            dto.DataCriacao
-        );
+        var viewModel = new ExcluirTarefaViewModel
+        {
+            Id = dto.Id,
+            Titulo = dto.Titulo,
+            Prioridade = dto.Prioridade,
+            DataCriacao = dto.DataCriacao
+        };
 
-        return View(viewModel);
+        return View($"{CaminhoViews}/Excluir.cshtml", viewModel);
     }
 
     [HttpPost]
     public ActionResult Excluir(ExcluirTarefaViewModel viewModel)
     {
-        Result resultado = servicoTarefa.Excluir(viewModel.Id);
+        var resultado = servicoTarefa.Excluir(viewModel.Id);
 
         if (resultado.IsFailed)
-            TempData["MensagemErro"] = resultado.Errors.First().Message;
+        {
+            foreach (var erro in resultado.Errors)
+            {
+                ModelState.AddModelError(string.Empty, erro.Message);
+            }
+            return View($"{CaminhoViews}/Excluir.cshtml", viewModel);
+        }
 
         return RedirectToAction(nameof(Listar));
     }
@@ -156,22 +157,24 @@ public class TarefaController(ServicoTarefa servicoTarefa) : Controller
 
         TarefaDto dto = resultado.Value;
 
-        GerenciarItensTarefaViewModel viewModel = new(
-            dto.Id,
-            dto.Titulo,
-            dto.Prioridade,
-            dto.DataCriacao,
-            dto.DataConclusao,
-            dto.PercentualConcluido,
-            dto.Concluida,
-            dto.Itens.Select(i => new ItemTarefaViewModel(
-                i.Id,
-                i.Titulo,
-                i.Concluido
-            )).ToList()
-        );
+        GerenciarItensTarefaViewModel viewModel = new()
+        {
+            Id = dto.Id,
+            Titulo = dto.Titulo,
+            Prioridade = dto.Prioridade,
+            DataCriacao = dto.DataCriacao,
+            DataConclusao = dto.DataConclusao,
+            PercentualConcluido = dto.PercentualConcluido,
+            Concluida = dto.Concluida,
+            Itens = dto.Itens.Select(i => new ItemTarefaViewModel
+            {
+                Id = i.Id,
+                Titulo = i.Titulo,
+                Concluido = i.Concluido
+            }).ToList()
+        };
 
-        return View(viewModel);
+        return View($"{CaminhoViews}/GerenciarItens.cshtml", viewModel);
     }
 
     [HttpPost]

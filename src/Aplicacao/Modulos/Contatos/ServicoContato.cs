@@ -8,16 +8,31 @@ public sealed class ServicoContato(IRepositorioContato repositorioContato)
 {
     public Result<Guid> Cadastrar(CadastrarContatoDto dto)
     {
-        Contato contato = new(dto.Nome, dto.Email, dto.Telefone, dto.Empresa, dto.Cargo);
+        Contato contato = new Contato(
+            dto.Nome,
+            dto.Email,
+            dto.Telefone,
+            dto.Cargo,
+            dto.Empresa
+        );
 
         List<ErroValidacao> erros = contato.Validar();
 
-        if (repositorioContato.ExisteContatoPorEmailOuTelefone(contato.Email, contato.Telefone))
+        if (repositorioContato.ExisteContatoPorNome(contato.Nome))
+        {
+            erros.Add(new ErroValidacao
+            {
+                Campo = nameof(dto.Nome),
+                Mensagem = "Já existe um contato cadastrado com o nome informado"
+            });
+        }
+
+        if (repositorioContato.ExisteContatoPorEmail(contato.Email))
         {
             erros.Add(new ErroValidacao
             {
                 Campo = nameof(dto.Email),
-                Mensagem = "Já existe um contato cadastrado com o e-mail ou telefone informado"
+                Mensagem = "Já existe um contato cadastrado com o email informado"
             });
         }
 
@@ -36,17 +51,31 @@ public sealed class ServicoContato(IRepositorioContato repositorioContato)
 
     public Result Editar(EditarContatoDto dto)
     {
-        Contato contatoAtualizado = new(dto.Nome, dto.Email, dto.Telefone, dto.Empresa, dto.Cargo);
-        contatoAtualizado.Id = dto.Id;
+        Contato contatoAtualizado = new Contato(
+            dto.Nome,
+            dto.Email,
+            dto.Telefone,
+            dto.Cargo,
+            dto.Empresa
+        );
 
         List<ErroValidacao> erros = contatoAtualizado.Validar();
 
-        if (repositorioContato.ExisteContatoPorEmailOuTelefone(contatoAtualizado.Email, contatoAtualizado.Telefone, dto.Id))
+        if (repositorioContato.ExisteContatoPorNome(contatoAtualizado.Nome, dto.Id))
         {
             erros.Add(new ErroValidacao
             {
-                Campo = nameof(contatoAtualizado.Email),
-                Mensagem = "Já existe um contato cadastrado com o e-mail ou telefone informado"
+                Campo = nameof(dto.Nome),
+                Mensagem = "Já existe um contato cadastrado com o nome informado"
+            });
+        }
+
+        if (repositorioContato.ExisteContatoPorEmail(contatoAtualizado.Email, dto.Id))
+        {
+            erros.Add(new ErroValidacao
+            {
+                Campo = nameof(dto.Email),
+                Mensagem = "Já existe um contato cadastrado com o email informado"
             });
         }
 
@@ -58,7 +87,10 @@ public sealed class ServicoContato(IRepositorioContato repositorioContato)
             return Result.Fail(errosResultado);
         }
 
-        repositorioContato.Editar(dto.Id, contatoAtualizado);
+        bool conseguiuEditar = repositorioContato.Editar(dto.Id, contatoAtualizado);
+
+        if (!conseguiuEditar)
+            return Result.Fail("Não foi possível editar o contato.");
 
         return Result.Ok();
     }
@@ -68,7 +100,7 @@ public sealed class ServicoContato(IRepositorioContato repositorioContato)
         bool conseguiuExcluir = repositorioContato.Excluir(id);
 
         if (!conseguiuExcluir)
-            return Result.Fail("Não foi possível encontrar o contato informado.");
+            return Result.Fail("Não foi possível excluir o contato.");
 
         return Result.Ok();
     }
@@ -78,7 +110,7 @@ public sealed class ServicoContato(IRepositorioContato repositorioContato)
         Contato? contato = repositorioContato.SelecionarPorId(id);
 
         if (contato == null)
-            return Result.Fail("Contato não encontrado.");
+            return Result.Fail("Contato não encontrada.");
 
         return Result.Ok(new ContatoDto(
             contato.Id,
@@ -92,17 +124,9 @@ public sealed class ServicoContato(IRepositorioContato repositorioContato)
 
     public List<ContatoDto> SelecionarTodos()
     {
-        List<Contato> contatos = repositorioContato.SelecionarTodos();
-
-        return contatos
-            .Select(c => new ContatoDto(
-                c.Id,
-                c.Nome,
-                c.Email,
-                c.Telefone,
-                c.Cargo,
-                c.Empresa
-            ))
+        return repositorioContato
+            .SelecionarTodos()
+            .Select(c => new ContatoDto(c.Id, c.Nome, c.Email, c.Telefone, c.Cargo, c.Empresa))
             .ToList();
     }
 }

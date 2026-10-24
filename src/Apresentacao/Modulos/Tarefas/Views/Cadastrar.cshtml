@@ -5,28 +5,37 @@
     ViewBag.Titulo = "Cadastro de Tarefa";
 }
 
-@model CadastrarTarefaViewModel;
+@model CadastrarTarefaViewModel
 
-<form class="card border-primary-subtle shadow-sm mx-auto p-4" style="max-width: 620px;" asp-action="Cadastrar"
-      method="post">
-    <div class="mb-3">
-        <label asp-for="Titulo" class="form-label fw-semibold text-primary text-uppercase small">Título</label>
-        <input asp-for="Titulo" type="text" class="form-control">
-        <span asp-validation-for="Titulo" class="text-danger small fw-semibold"></span>
+<div class="container py-4" style="max-width: 620px;">
+    <div class="mb-4">
+        <h2 class="text-primary fw-bold">Cadastrar Nova Tarefa</h2>
     </div>
 
-    <div class="mb-3">
-        <label asp-for="Prioridade" class="form-label fw-semibold text-primary text-uppercase small">Prioridade</label>
-        <select asp-for="Prioridade" class="form-select">
-            <option value="Baixa">Baixa</option>
-            <option value="Normal">Normal</option>
-            <option value="Alta">Alta</option>
-        </select>
-        <span asp-validation-for="Prioridade" class="text-danger small fw-semibold"></span>
-    </div>
+    <form class="card border-primary-subtle shadow-sm p-4" action="/Tarefa/Cadastrar" method="post">
+        
+        <div asp-validation-summary="All" class="text-danger alert alert-danger mb-3"></div>
 
-    <div class="d-flex justify-content-end gap-2 mt-4">
-        <a class="btn btn-outline-primary rounded-pill px-4" asp-action="Listar">Voltar</a>
-        <button class="btn btn-primary rounded-pill px-4" type="submit">Confirmar</button>
-    </div>
-</form>
+        <div class="mb-3">
+            <label asp-for="Titulo" class="form-label fw-semibold text-primary text-uppercase small">Título</label>
+            <input asp-for="Titulo" name="Titulo" class="form-control" />
+            <span asp-validation-for="Titulo" class="text-danger small fw-semibold"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Prioridade"
+                   class="form-label fw-semibold text-primary text-uppercase small">Prioridade</label>
+            <select asp-for="Prioridade" name="Prioridade" class="form-select">
+                <option value="0">Baixa</option>
+                <option value="1">Normal</option>
+                <option value="2">Alta</option>
+            </select>
+            <span asp-validation-for="Prioridade" class="text-danger small fw-semibold"></span>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mt-4">
+            <a class="btn btn-outline-primary rounded-pill px-4" href="/Tarefa/Listar">Voltar</a>
+            <button class="btn btn-primary rounded-pill px-4" type="submit">Cadastrar</button>
+        </div>
+    </form>
+</div>

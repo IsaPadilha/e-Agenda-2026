@@ -7,7 +7,7 @@
 
 @model List<TarefaDto>;
 
-<a class="btn btn-outline-primary rounded-pill px-4 mb-3" asp-action="Cadastrar">Cadastrar Nova</a>
+<a class="btn btn-outline-primary rounded-pill px-4 mb-3" href="/Tarefa/Cadastrar">Cadastrar Nova</a>
 
 @if (!string.IsNullOrWhiteSpace(TempData["MensagemErro"]?.ToString()))
 {
@@ -48,12 +48,12 @@ else
                         </dl>
 
                         <div class="d-flex flex-wrap gap-2 mt-auto justify-content-end">
-                            <a class="btn btn-outline-primary btn-sm rounded-pill px-3" asp-action="GerenciarItens"
-                               asp-route-tarefaId="@t.Id">Itens</a>
-                            <a class="btn btn-outline-primary btn-sm rounded-pill px-3" asp-action="Editar"
-                               asp-route-id="@t.Id">Editar</a>
-                            <a class="btn btn-outline-primary btn-sm rounded-pill px-3" asp-action="Excluir"
-                               asp-route-id="@t.Id">Excluir</a>
+                            <a class="btn btn-outline-primary btn-sm rounded-pill px-3"
+                               href="/Tarefa/GerenciarItens?tarefaId=@t.Id">Itens</a>
+                            <a class="btn btn-outline-primary btn-sm rounded-pill px-3"
+                               href="/Tarefa/Editar?id=@t.Id">Editar</a>
+                            <a class="btn btn-outline-danger btn-sm rounded-pill px-3"
+                               href="/Tarefa/Excluir?id=@t.Id">Excluir</a>
                         </div>
                     </div>
                 </div>

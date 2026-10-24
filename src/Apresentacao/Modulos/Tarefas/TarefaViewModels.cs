@@ -3,48 +3,48 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace eAgenda.WebApp.Modulos.Tarefas;
 
-[ValidateNever]
-public record CadastrarTarefaViewModel(
-    string Titulo,
-    PrioridadeTarefa Prioridade
-);
+public class CadastrarTarefaViewModel
+{
+    public string Titulo { get; set; } = string.Empty;
+    public PrioridadeTarefa Prioridade { get; set; }
+}
 
-[ValidateNever]
-public record EditarTarefaViewModel(
-    Guid Id,
-    string Titulo,
-    PrioridadeTarefa Prioridade
-);
+public class EditarTarefaViewModel
+{
+    public Guid Id { get; set; }
+    public string Titulo { get; set; } = string.Empty;
+    public PrioridadeTarefa Prioridade { get; set; }
+}
 
-[ValidateNever]
-public record ExcluirTarefaViewModel(
-    Guid Id,
-    string Titulo,
-    PrioridadeTarefa Prioridade,
-    DateOnly DataCriacao
-);
+public class ExcluirTarefaViewModel
+{
+    public Guid Id { get; set; }
+    public string Titulo { get; set; } = string.Empty;
+    public PrioridadeTarefa Prioridade { get; set; }
+    public DateOnly DataCriacao { get; set; }
+}
 
-[ValidateNever]
-public record GerenciarItensTarefaViewModel(
-    Guid Id,
-    string Titulo,
-    PrioridadeTarefa Prioridade,
-    DateOnly DataCriacao,
-    DateOnly? DataConclusao,
-    int PercentualConcluido,
-    bool Concluida,
-    List<ItemTarefaViewModel> Itens
-);
+public class GerenciarItensTarefaViewModel
+{
+    public Guid Id { get; set; }
+    public string Titulo { get; set; } = string.Empty;
+    public PrioridadeTarefa Prioridade { get; set; }
+    public DateOnly DataCriacao { get; set; }
+    public DateOnly? DataConclusao { get; set; }
+    public int PercentualConcluido { get; set; }
+    public bool Concluida { get; set; }
+    public List<ItemTarefaViewModel> Itens { get; set; } = [];
+}
 
-[ValidateNever]
-public record AdicionarItemTarefaViewModel(
-    Guid TarefaId,
-    string Titulo
-);
+public class AdicionarItemTarefaViewModel
+{
+    public Guid TarefaId { get; set; }
+    public string Titulo { get; set; } = string.Empty;
+}
 
-[ValidateNever]
-public record ItemTarefaViewModel(
-    Guid Id,
-    string Titulo,
-    bool Concluido
-);
+public class ItemTarefaViewModel
+{
+    public Guid Id { get; set; }
+    public string Titulo { get; set; } = string.Empty;
+    public bool Concluido { get; set; }
+}

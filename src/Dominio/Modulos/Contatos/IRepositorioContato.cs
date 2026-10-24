@@ -4,5 +4,6 @@ namespace eAgenda.Dominio.Modulos.Contatos;
 
 public interface IRepositorioContato : IRepositorio<Contato>
 {
-    bool ExisteContatoPorEmailOuTelefone(string email, string telefone, Guid? idIgnorado = null);
+    bool ExisteContatoPorNome(string nome, Guid? idIgnorado = null);
+    bool ExisteContatoPorEmail(string email, Guid? idIgnorado = null);
 }

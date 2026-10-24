@@ -1,3 +1,5 @@
+using System.Globalization;
+
 using eAgenda.Dominio.Modulos.Contatos;
 using eAgenda.Infraestrutura.Compartilhado.Orm;
 
@@ -13,11 +15,19 @@ public sealed class RepositorioContatoEmOrm(EAgendaDbContext dbContext) :
             .ToList();
     }
 
-    public bool ExisteContatoPorEmailOuTelefone(string email, string telefone, Guid? idIgnorado = null)
+    public bool ExisteContatoPorNome(string nome, Guid? idIgnorado = null)
     {
-        return registros.Any(c =>
-            c.Id != idIgnorado &&
-            (c.Email.ToLower() == email.ToLower() || c.Telefone == telefone)
+        return registros.Any(
+            c => c.Id != idIgnorado &&
+            c.Nome.Trim() == nome.Trim()
+        );
+    }
+
+    public bool ExisteContatoPorEmail(string email, Guid? idIgnorado = null)
+    {
+        return registros.Any(
+            c => c.Id != idIgnorado &&
+            c.Email.Trim() == email.Trim()
         );
     }
 }

@@ -16,7 +16,7 @@
     @* Barra de Navegação *@
     <nav class="navbar navbar-expand-lg bg-white border-bottom">
         <div class="container">
-            <a class="navbar-brand fw-semibold" asp-controller="Home" asp-action="Index">e-Agenda</a>
+            <a class="navbar-brand fw-semibold" href="/">e-Agenda</a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,12 +25,12 @@
 
             <div class="collapse navbar-collapse" id="menuPrincipal">
                 <div class="navbar-nav ms-auto">
-                    <a class="nav-link" asp-controller="Home" asp-action="Index">Início</a>
-                    <a class="nav-link" asp-controller="Categoria" asp-action="Listar">Categorias</a>
-                    <a class="nav-link" asp-controller="Despesa" asp-action="Listar">Despesas</a>
-                    <a class="nav-link" asp-controller="Tarefa" asp-action="Listar">Tarefas</a>
-                    <a class="nav-link" asp-controller="Contato" asp-action="Listar">Contatos</a>
-                    <a class="nav-link" asp-controller="Compromisso" asp-action="Listar">Compromissos</a>
+                    <a class="nav-link" href="/">Início</a>
+                    <a class="nav-link" href="/Categoria/Listar">Categorias</a>
+                    <a class="nav-link" href="/Despesa/Listar">Despesas</a>
+                    <a class="nav-link" href="/Tarefa/Listar">Tarefas</a>
+                    <a class="nav-link" href="/Contato/Listar">Contatos</a>
+                    <a class="nav-link" href="/Compromisso/Listar">Compromissos</a>
                 </div>
             </div>
         </div>
