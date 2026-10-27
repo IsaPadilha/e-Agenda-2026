@@ -110,7 +110,7 @@ public sealed class ServicoContato(IRepositorioContato repositorioContato)
         Contato? contato = repositorioContato.SelecionarPorId(id);
 
         if (contato == null)
-            return Result.Fail("Contato não encontrada.");
+            return Result.Fail("Contato não encontrado.");
 
         return Result.Ok(new ContatoDto(
             contato.Id,

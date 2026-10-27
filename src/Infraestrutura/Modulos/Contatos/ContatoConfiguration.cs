@@ -11,14 +11,16 @@ public sealed class ContatoConfiguration : IEntityTypeConfiguration<Contato>
         builder.ToTable("TBContatos");
 
         builder.HasKey(c => c.Id);
-        builder.Property(c => c.Id).ValueGeneratedNever();
+
+        builder.Property(c => c.Id)
+            .ValueGeneratedNever();
 
         builder.Property(c => c.Nome)
             .HasMaxLength(100)
             .IsRequired();
 
         builder.Property(c => c.Email)
-            .HasMaxLength(150)
+            .HasMaxLength(255)
             .IsRequired();
 
         builder.Property(c => c.Telefone)
@@ -26,17 +28,16 @@ public sealed class ContatoConfiguration : IEntityTypeConfiguration<Contato>
             .IsRequired();
 
         builder.Property(c => c.Cargo)
-            .HasMaxLength(100)
-            .IsRequired(false);
+            .HasMaxLength(100);
 
         builder.Property(c => c.Empresa)
-            .HasMaxLength(100)
-            .IsRequired(false);
+            .HasMaxLength(100);
 
-        //Configuração do relacionamento Um-para-Muitos com Compromisso (se aplicável)
-        builder.HasMany(c => c.Compromissos)
-        .WithOne(cp => cp.Contato)
-        .HasForeignKey(cp => cp.ContatoId)
-        .OnDelete(DeleteBehavior.Restrict);
+        // Índice de exclusividade
+        builder.HasIndex(c => c.Email)
+            .IsUnique();
+
+        builder.HasIndex(c => c.Telefone)
+            .IsUnique();
     }
 }

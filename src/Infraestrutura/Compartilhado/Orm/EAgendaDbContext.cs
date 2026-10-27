@@ -1,5 +1,7 @@
 using eAgenda.Dominio.Modulos.Categorias;
 using eAgenda.Infraestrutura.Modulos.Categorias;
+using eAgenda.Dominio.Modulos.Contatos;
+using eAgenda.Infraestrutura.Modulos.Contatos;
 using eAgenda.Dominio.Modulos.Tarefas;
 using Microsoft.EntityFrameworkCore;
 using eAgenda.Dominio.Modulos.Despesas;
@@ -22,5 +24,6 @@ public sealed class EAgendaDbContext(DbContextOptions<EAgendaDbContext> options)
         modelBuilder.ApplyConfiguration(new DespesaConfiguration());
         modelBuilder.ApplyConfiguration(new TarefaConfiguration());
         modelBuilder.ApplyConfiguration(new ItemTarefaConfiguration());
+        modelBuilder.ApplyConfiguration(new ContatoConfiguration());
     }
 }
