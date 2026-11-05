@@ -1,4 +1,5 @@
 using eAgenda.Aplicacao.Modulos.Categorias;
+using eAgenda.Dominio.Compartilhado;
 using eAgenda.Aplicacao.Modulos.Despesas;
 using eAgenda.Dominio.Modulos.Despesas;
 using FluentResults;
@@ -6,7 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace eAgenda.WebApp.Modulos.Categorias;
 
-public sealed class CategoriaController(ServicoCategoria servicoCategoria) : Controller
+public sealed class CategoriaController(
+    ServicoCategoria servicoCategoria,
+    IProvedorUsuarioAtual usuarioAtual
+    ) : Controller
 {
     [HttpGet]
     public ActionResult Listar()
@@ -31,7 +35,10 @@ public sealed class CategoriaController(ServicoCategoria servicoCategoria) : Con
             return View("~/Modulos/Categorias/Views/Cadastrar.cshtml", viewModel);
         }
 
-        var dto = new CadastrarCategoriaDto(viewModel.Titulo);
+        CadastrarCategoriaDto dto = new(
+            usuarioAtual.Id,
+            viewModel.Titulo ?? string.Empty
+            );
         var resultado = servicoCategoria.Cadastrar(dto);
 
         if (resultado.IsFailed)

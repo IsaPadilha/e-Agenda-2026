@@ -1,4 +1,5 @@
 using eAgenda.Aplicacao.Compartilhado;
+using eAgenda.Dominio.Compartilhado;
 using eAgenda.Infraestrutura.Compartilhado;
 using eAgenda.Infraestrutura.Compartilhado.Orm;
 using eAgenda.Infraestrutura.Modulos.Contatos;
@@ -42,6 +43,9 @@ builder.Services.AddControllersWithViews().AddRazorOptions(options =>
     options.ViewLocationFormats.Add("/Views/{1}/{0}.cshtml");
     options.ViewLocationFormats.Add("/Compartilhado/Views/{0}.cshtml");
 });
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IProvedorUsuarioAtual, ProvedorUsuarioAtualHttp>();
 
 var app = builder.Build();
 

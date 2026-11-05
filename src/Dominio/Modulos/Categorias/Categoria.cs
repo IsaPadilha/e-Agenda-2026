@@ -9,7 +9,7 @@ public sealed class Categoria : EntidadeBase<Categoria>
     public List<Despesa> Despesas { get; set; } = [];
     public Categoria() { }
 
-    public Categoria(string titulo) : this()
+    public Categoria(Guid usuarioId, string titulo) : this()
     {
         Titulo = titulo;
     }

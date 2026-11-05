@@ -1,6 +1,6 @@
 namespace eAgenda.Dominio.Compartilhado;
 
-public interface IUsuarioAtual
+public interface IProvedorUsuarioAtual
 {
     public Guid Id { get; }
 }
