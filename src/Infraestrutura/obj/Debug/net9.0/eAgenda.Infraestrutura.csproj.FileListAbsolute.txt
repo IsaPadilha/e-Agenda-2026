@@ -1,4 +1,5 @@
 C:\Academia C#\eAgenda\src\Infraestrutura\bin\Debug\net9.0\eAgenda.Infraestrutura.deps.json
+C:\Academia C#\eAgenda\src\Infraestrutura\bin\Debug\net9.0\eAgenda.Infraestrutura.runtimeconfig.json
 C:\Academia C#\eAgenda\src\Infraestrutura\bin\Debug\net9.0\eAgenda.Infraestrutura.dll
 C:\Academia C#\eAgenda\src\Infraestrutura\bin\Debug\net9.0\eAgenda.Infraestrutura.pdb
 C:\Academia C#\eAgenda\src\Infraestrutura\bin\Debug\net9.0\eAgenda.Dominio.dll
@@ -13,4 +14,5 @@ C:\Academia C#\eAgenda\src\Infraestrutura\obj\Debug\net9.0\eAgenda..8D9FF515.Up2
 C:\Academia C#\eAgenda\src\Infraestrutura\obj\Debug\net9.0\eAgenda.Infraestrutura.dll
 C:\Academia C#\eAgenda\src\Infraestrutura\obj\Debug\net9.0\refint\eAgenda.Infraestrutura.dll
 C:\Academia C#\eAgenda\src\Infraestrutura\obj\Debug\net9.0\eAgenda.Infraestrutura.pdb
+C:\Academia C#\eAgenda\src\Infraestrutura\obj\Debug\net9.0\eAgenda.Infraestrutura.genruntimeconfig.cache
 C:\Academia C#\eAgenda\src\Infraestrutura\obj\Debug\net9.0\ref\eAgenda.Infraestrutura.dll

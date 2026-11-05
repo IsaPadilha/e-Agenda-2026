@@ -1,4 +1,5 @@
 using eAgenda.Dominio.Modulos.Tarefas;
+using eAgenda.Infraestrutura.Compartilhado.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -40,5 +41,10 @@ public sealed class TarefaConfiguration : IEntityTypeConfiguration<Tarefa>
             .WithOne(i => i.Tarefa)
             .HasForeignKey(i => i.TarefaId)
             .OnDelete(DeleteBehavior.ClientCascade);
+
+        builder.HasOne<UsuarioIdentity>()
+        .WithMany()
+        .HasForeignKey(c => c.UsuarioId)
+        .OnDelete(DeleteBehavior.Restrict);
     }
 }

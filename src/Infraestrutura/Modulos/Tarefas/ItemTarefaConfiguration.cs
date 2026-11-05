@@ -1,4 +1,5 @@
 using eAgenda.Dominio.Modulos.Tarefas;
+using eAgenda.Infraestrutura.Compartilhado.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,5 +25,10 @@ public sealed class ItemTarefaConfiguration : IEntityTypeConfiguration<ItemTaref
 
         builder.Property(i => i.TarefaId)
             .IsRequired();
+
+        builder.HasOne<UsuarioIdentity>()
+            .WithMany()
+            .HasForeignKey(c => c.UsuarioId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

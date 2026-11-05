@@ -1,4 +1,5 @@
 using eAgenda.Dominio.Modulos.Contatos;
+using eAgenda.Infraestrutura.Compartilhado.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -17,13 +18,11 @@ public sealed class ContatoConfiguration : IEntityTypeConfiguration<Contato>
             .HasMaxLength(100)
             .IsRequired();
 
-        builder.Property(c => c.Email)
-            .HasMaxLength(150)
-            .IsRequired();
+        builder.HasIndex(c => new { c.UsuarioId, c.Email })
+            .IsUnique();
 
-        builder.Property(c => c.Telefone)
-            .HasMaxLength(20)
-            .IsRequired();
+        builder.HasIndex(c => new { c.UsuarioId, c.Telefone })
+            .IsUnique();
 
         builder.Property(c => c.Cargo)
             .HasMaxLength(100)
@@ -38,5 +37,10 @@ public sealed class ContatoConfiguration : IEntityTypeConfiguration<Contato>
         .WithOne(cp => cp.Contato)
         .HasForeignKey(cp => cp.ContatoId)
         .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne<UsuarioIdentity>()
+            .WithMany()
+            .HasForeignKey(c => c.UsuarioId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
