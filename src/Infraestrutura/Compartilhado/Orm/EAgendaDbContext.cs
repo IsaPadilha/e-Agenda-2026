@@ -1,3 +1,4 @@
+using eAgenda.Dominio.Compartilhado;
 using eAgenda.Dominio.Modulos.Categorias;
 using eAgenda.Infraestrutura.Modulos.Categorias;
 using eAgenda.Dominio.Modulos.Tarefas;
@@ -5,11 +6,17 @@ using Microsoft.EntityFrameworkCore;
 using eAgenda.Dominio.Modulos.Despesas;
 using eAgenda.Infraestrutura.Modulos.Despesas;
 using eAgenda.Infraestrutura.Modulos.Tarefas;
+using eAgenda.Dominio.Modulos.Contatos;
+using eAgenda.Infraestrutura.Compartilhado.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+
 namespace eAgenda.Infraestrutura.Compartilhado.Orm;
 
-using eAgenda.Dominio.Modulos.Contatos;
-
-public sealed class EAgendaDbContext(DbContextOptions<EAgendaDbContext> options) : DbContext(options)
+public sealed class EAgendaDbContext(
+    DbContextOptions<EAgendaDbContext> options,
+    IProvedorUsuarioAtual usuarioAtual
+) : IdentityDbContext<UsuarioIdentity, IdentityRole<Guid>, Guid>(options)
 {
     public DbSet<Categoria> Categorias => Set<Categoria>();
     public DbSet<Despesa> Despesas => Set<Despesa>();
@@ -22,5 +29,8 @@ public sealed class EAgendaDbContext(DbContextOptions<EAgendaDbContext> options)
         modelBuilder.ApplyConfiguration(new DespesaConfiguration());
         modelBuilder.ApplyConfiguration(new TarefaConfiguration());
         modelBuilder.ApplyConfiguration(new ItemTarefaConfiguration());
+
+        // QueryFilter aplica um filtro global
+        modelBuilder.Entity<Categoria>().HasQueryFilter(c => c.UsuarioId == usuarioAtual.Id);
     }
 }
