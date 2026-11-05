@@ -16,6 +16,8 @@ public sealed class ServicoContato(IRepositorioContato repositorioContato)
             dto.Empresa
         );
 
+        contato.UsuarioId = dto.UsuarioId;
+
         List<ErroValidacao> erros = contato.Validar();
 
         if (repositorioContato.ExisteContatoPorNome(contato.Nome))

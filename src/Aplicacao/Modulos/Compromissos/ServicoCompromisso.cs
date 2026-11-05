@@ -19,6 +19,8 @@ public sealed class ServicoCompromisso(IRepositorioCompromisso repositorioCompro
             null
         );
 
+        compromisso.UsuarioId = dto.UsuarioId;
+
         List<ErroValidacao> erros = compromisso.Validar();
 
         if (repositorioCompromisso.ExisteConflitoDeHorario(dto.DataOcorrencia, dto.HoraInicio, dto.HoraTermino))

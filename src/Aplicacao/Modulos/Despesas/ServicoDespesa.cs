@@ -37,6 +37,7 @@ public sealed class ServicoDespesa(
             dto.FormaPagamento,
             categoriasSelecionadas
         );
+        despesa.UsuarioId = dto.UsuarioId;
 
         List<ErroValidacao> erros = despesa.Validar();
 

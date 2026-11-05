@@ -1,11 +1,11 @@
 using eAgenda.Aplicacao.Modulos.Contatos;
-using eAgenda.Dominio.Modulos.Contatos;
+using eAgenda.Dominio.Compartilhado;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eAgenda.WebApp.Modulos.Contatos;
 
-public sealed class ContatoController(ServicoContato servicoContato) : Controller
+public sealed class ContatoController(ServicoContato servicoContato, IProvedorUsuarioAtual usuarioAtual) : Controller
 {
     private const string CaminhoViews = "~/Modulos/Contatos/Views";
 
@@ -31,6 +31,7 @@ public sealed class ContatoController(ServicoContato servicoContato) : Controlle
             return View($"{CaminhoViews}/Cadastrar.cshtml", viewModel);
 
         CadastrarContatoDto dto = new(
+            usuarioAtual.Id,
             viewModel.Nome ?? string.Empty,
             viewModel.Email ?? string.Empty,
             viewModel.Telefone ?? string.Empty,

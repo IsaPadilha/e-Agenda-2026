@@ -1,11 +1,17 @@
 using eAgenda.Aplicacao.Modulos.Compromissos;
 using eAgenda.Dominio.Modulos.Compromissos;
+using eAgenda.Dominio.Compartilhado;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
+using eAgenda.Aplicacao.Modulos.Contatos;
 
 namespace eAgenda.WebApp.Modulos.Compromissos;
 
-public sealed class CompromissoController(ServicoCompromisso servicoCompromisso) : Controller
+public class CompromissoController(
+    ServicoCompromisso servicoCompromisso,
+    ServicoContato servicoContato,
+    IProvedorUsuarioAtual usuarioAtual
+    ) : Controller
 {
     private const string CaminhoViews = "~/Modulos/Compromissos/Views";
 
@@ -34,6 +40,7 @@ public sealed class CompromissoController(ServicoCompromisso servicoCompromisso)
             : (viewModel.Link ?? string.Empty);
 
         CadastrarCompromissoDto dto = new(
+            usuarioAtual.Id,
             viewModel.Assunto ?? string.Empty,
             DateOnly.FromDateTime(viewModel.Data),
             TimeOnly.FromTimeSpan(viewModel.HoraInicio),

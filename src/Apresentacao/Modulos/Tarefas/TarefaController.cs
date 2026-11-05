@@ -1,11 +1,12 @@
 using eAgenda.Aplicacao.Modulos.Tarefas;
+using eAgenda.Dominio.Compartilhado;
 using eAgenda.Dominio.Modulos.Tarefas;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eAgenda.WebApp.Modulos.Tarefas;
 
-public class TarefaController(ServicoTarefa servicoTarefa) : Controller
+public class TarefaController(ServicoTarefa servicoTarefa, IProvedorUsuarioAtual usuarioAtual) : Controller
 {
     private const string CaminhoViews = "~/Modulos/Tarefas/Views";
 
@@ -33,6 +34,7 @@ public class TarefaController(ServicoTarefa servicoTarefa) : Controller
     public ActionResult Cadastrar(CadastrarTarefaViewModel viewModel)
     {
         CadastrarTarefaDto dto = new(
+            usuarioAtual.Id,
             viewModel.Titulo,
             viewModel.Prioridade
         );

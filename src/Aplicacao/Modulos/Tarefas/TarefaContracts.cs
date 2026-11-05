@@ -14,6 +14,7 @@ public record TarefaDto(
 );
 
 public record CadastrarTarefaDto(
+    Guid UsuarioId,
     string Titulo,
     PrioridadeTarefa Prioridade
 );

@@ -14,6 +14,7 @@ public record DespesaDto(
 );
 
 public record CadastrarDespesaDto(
+    Guid UsuarioId,
     string Descricao,
     DateOnly Data,
     decimal Valor,

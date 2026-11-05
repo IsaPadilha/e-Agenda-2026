@@ -1,6 +1,7 @@
 using eAgenda.Aplicacao.Modulos.Categorias;
 using eAgenda.Aplicacao.Modulos.Despesas;
 using eAgenda.Dominio.Modulos.Despesas;
+using eAgenda.Dominio.Compartilhado;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +9,8 @@ namespace eAgenda.WebApp.Modulos.Despesas;
 
 public sealed class DespesaController(
     ServicoDespesa servicoDespesa,
-    ServicoCategoria servicoCategoria
+    ServicoCategoria servicoCategoria,
+    IProvedorUsuarioAtual usuarioAtual
 ) : Controller
 {
     private const string CaminhoViews = "~/Modulos/Despesas/Views";
@@ -81,6 +83,7 @@ public sealed class DespesaController(
         }
 
         CadastrarDespesaDto dto = new(
+            usuarioAtual.Id,
             viewModel.Descricao,
             dataConvertida,
             viewModel.Valor,
