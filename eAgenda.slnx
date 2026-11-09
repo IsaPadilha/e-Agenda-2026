@@ -5,4 +5,7 @@
     <Project Path="src/Apresentacao/eAgenda.WebApp.csproj" />
     <Project Path="src/Infraestrutura/eAgenda.Infraestrutura.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Unidade/eAgenda.Testes.Unidade.csproj" />
+  </Folder>
 </Solution>
