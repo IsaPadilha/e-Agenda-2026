@@ -1,4 +1,3 @@
-using System;
 using eAgenda.Dominio.Compartilhado;
 using eAgenda.Dominio.Modulos.Categorias;
 

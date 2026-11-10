@@ -1,5 +1,3 @@
-using System.Globalization;
-
 using eAgenda.Dominio.Modulos.Contatos;
 using eAgenda.Infraestrutura.Compartilhado.Orm;
 
