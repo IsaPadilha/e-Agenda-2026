@@ -87,13 +87,21 @@ public sealed class Contato : EntidadeBase<Contato>
 
     public override void Atualizar(Contato entidadeAtualizada)
     {
-        {
-            Nome = entidadeAtualizada.Nome;
-            Email = entidadeAtualizada.Email;
-            Telefone = entidadeAtualizada.Telefone;
-            Cargo = entidadeAtualizada.Cargo;
-            Empresa = entidadeAtualizada.Empresa;
-        }
+        Nome = entidadeAtualizada.Nome;
+        Email = entidadeAtualizada.Email;
+        Telefone = entidadeAtualizada.Telefone;
+        Cargo = entidadeAtualizada.Cargo;
+        Empresa = entidadeAtualizada.Empresa;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is Contato contato &&
+            Nome == contato.Nome &&
+            Email == contato.Email &&
+            Telefone == contato.Telefone &&
+            Cargo == contato.Cargo &&
+            Empresa == contato.Empresa;
     }
 
 }

@@ -1,7 +1,7 @@
 using eAgenda.Dominio.Modulos.Tarefas;
 using eAgenda.Infraestrutura.Modulos.Tarefas;
 
-namespace eAgenda.Testes.Integracao.Tarefas;
+namespace eAgenda.Testes.Integracao.Modulos.Tarefas;
 
 [TestClass]
 public sealed partial class RepositorioTarefaEmOrmTests : RepositorioEmOrmTestsBase
