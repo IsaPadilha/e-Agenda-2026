@@ -121,5 +121,7 @@ public sealed partial class RepositorioTarefaEmOrmTests : RepositorioEmOrmTestsB
         Assert.IsTrue(conseguiuExcluir);
         Assert.IsNull(tarefaSelecionada);
         Assert.AreEqual(0, quantidadeItensTarefa);
+
+
     }
 }

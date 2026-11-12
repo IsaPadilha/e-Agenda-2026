@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("eAgenda.Testes.Integracao")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6370d51d5b9f9c9b444e0fd4835e3a4e4e012c15")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bb5dfb5f3806658e98874c39abac9bbe32afca8a")]
 [assembly: System.Reflection.AssemblyProductAttribute("eAgenda.Testes.Integracao")]
 [assembly: System.Reflection.AssemblyTitleAttribute("eAgenda.Testes.Integracao")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

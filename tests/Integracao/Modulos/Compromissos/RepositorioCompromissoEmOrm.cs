@@ -16,11 +16,11 @@ public sealed class RepositorioCompromissoEmOrmTests : RepositorioEmOrmTestsBase
         Compromisso compromisso = new(
             "Reunião Online",
             new DateOnly(2026, 11, 06),
-            new TimeSpan(11, 00, 00),
-            new TimeSpan(12, 00, 00),
+            new TimeOnly(11, 00),
+            new TimeOnly(12, 00),
             TipoCompromisso.Remoto,
-            null,
             "https://meet.google.com/meet/qdu-bbrw-fjd",
+            null,
             null
         )
         {
@@ -40,12 +40,10 @@ public sealed class RepositorioCompromissoEmOrmTests : RepositorioEmOrmTestsBase
         Assert.IsNotNull(compromissoSelecionado);
         Assert.AreEqual("Reunião Online", compromissoSelecionado.Assunto);
         Assert.AreEqual(new DateOnly(2026, 11, 06), compromissoSelecionado.DataOcorrencia);
-        Assert.AreEqual(new TimeSpan(11, 00, 00), compromissoSelecionado.HoraInicio);
-        Assert.AreEqual(new TimeSpan(12, 00, 00), compromissoSelecionado.HoraTermino);
-        Assert.AreEqual(TipoCompromisso.Remoto, compromissoSelecionado.Tipo);
-        Assert.IsNull(compromissoSelecionado.Local);
-        Assert.IsNotNull(compromissoSelecionado.Link);
-        Assert.AreEqual("https://meet.google.com/meet/qdu-bbrw-fjd", compromissoSelecionado.Link);
+        Assert.AreEqual(new TimeOnly(11, 00), compromissoSelecionado.HoraInicio);
+        Assert.AreEqual(new TimeOnly(12, 00), compromissoSelecionado.HoraTermino);
+        Assert.AreEqual(TipoCompromisso.Remoto, compromissoSelecionado.TipoCompromisso);
+        Assert.AreEqual("https://meet.google.com/meet/qdu-bbrw-fjd", compromissoSelecionado.LocalOuLink);
         Assert.IsNull(compromissoSelecionado.Contato);
     }
 
@@ -72,11 +70,11 @@ public sealed class RepositorioCompromissoEmOrmTests : RepositorioEmOrmTestsBase
         Compromisso compromisso = new(
             "Reunião Presencial",
             new DateOnly(2026, 11, 06),
-            new TimeSpan(11, 00, 00),
-            new TimeSpan(12, 00, 00),
+            new TimeOnly(11, 00),
+            new TimeOnly(12, 00),
             TipoCompromisso.Presencial,
             "MidiLages",
-            null,
+            contatoId,
             contato
         )
         {
@@ -96,13 +94,31 @@ public sealed class RepositorioCompromissoEmOrmTests : RepositorioEmOrmTestsBase
         Assert.IsNotNull(compromissoSelecionado);
         Assert.AreEqual("Reunião Presencial", compromissoSelecionado.Assunto);
         Assert.AreEqual(new DateOnly(2026, 11, 06), compromissoSelecionado.DataOcorrencia);
-        Assert.AreEqual(new TimeSpan(11, 00, 00), compromissoSelecionado.HoraInicio);
-        Assert.AreEqual(new TimeSpan(12, 00, 00), compromissoSelecionado.HoraTermino);
-        Assert.AreEqual(TipoCompromisso.Presencial, compromissoSelecionado.Tipo);
-        Assert.IsNotNull(compromissoSelecionado.Local);
-        Assert.AreEqual("MidiLages", compromissoSelecionado.Local);
-        Assert.IsNull(compromissoSelecionado.Link);
+        Assert.AreEqual(new TimeOnly(11, 00), compromissoSelecionado.HoraInicio);
+        Assert.AreEqual(new TimeOnly(12, 00), compromissoSelecionado.HoraTermino);
+        Assert.AreEqual(TipoCompromisso.Presencial, compromissoSelecionado.TipoCompromisso);
+        Assert.AreEqual("MidiLages", compromissoSelecionado.LocalOuLink);
         Assert.IsNotNull(compromissoSelecionado.Contato);
         Assert.AreEqual(contato, compromissoSelecionado.Contato);
+    }
+
+    [TestMethod]
+    public void Editar_DevePersistir_Compromisso_ComContatoNoBanco()
+    {
+        // Arranjo
+
+        // Ação
+
+        // Asserção
+    }
+
+    [TestMethod]
+    public void Excluir_DevePersistir_CompromissoNoBanco()
+    {
+        // Arranjo
+
+        // Ação
+
+        // Asserção
     }
 }
