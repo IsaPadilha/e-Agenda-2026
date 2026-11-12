@@ -105,20 +105,20 @@ public sealed class RepositorioCompromissoEmOrmTests : RepositorioEmOrmTestsBase
     [TestMethod]
     public void Editar_DevePersistir_Compromisso_ComContatoNoBanco()
     {
-        // Arranjo
+        //Arranjos
 
-        // Ação
+        //Ação
 
-        // Asserção
+        //Asserção
     }
 
     [TestMethod]
     public void Excluir_DevePersistir_CompromissoNoBanco()
     {
-        // Arranjo
+        //Arranjo
 
-        // Ação
+        //Ação
 
-        // Asserção
+        //Asserção
     }
 }
