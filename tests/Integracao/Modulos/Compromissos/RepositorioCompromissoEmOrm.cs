@@ -103,7 +103,7 @@ public sealed class RepositorioCompromissoEmOrmTests : RepositorioEmOrmTestsBase
     }
 
     [TestMethod]
-    public void Editar_DevePersistir_Compromisso_ComContatoNoBanco()
+    public void Editar_DeveAtualizar_Compromisso_ComContatoNoBanco()
     {
         //Arranjos
 
@@ -113,7 +113,7 @@ public sealed class RepositorioCompromissoEmOrmTests : RepositorioEmOrmTestsBase
     }
 
     [TestMethod]
-    public void Excluir_DevePersistir_CompromissoNoBanco()
+    public void Excluir_DeveApagar_CompromissoNoBanco()
     {
         //Arranjo
 
