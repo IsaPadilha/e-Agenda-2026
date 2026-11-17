@@ -31,16 +31,7 @@ public sealed class TarefaE2ETests : E2ETestsBase
     public async Task Deve_Editar_Tarefa_Corretamente()
     {
         // Arranjo
-        await CadastrarUsuarioAsync();
-
-        await page.GotoAsync($"{baseUrl}/Tarefa/Cadastrar");
-
-        await page.GetByLabel("Título").FillAsync("Lavar o cachorro");
-        await page.GetByLabel("Prioridade").SelectOptionAsync("Alta");
-
-        await page.GetByRole(AriaRole.Button, new() { Name = "Confirmar" }).ClickAsync();
-
-        ILocator card = page.Locator(".card").Filter(new() { HasText = "Lavar o cachorro" });
+        ILocator card = await CadastrarTarefaAsync();
 
         await card.GetByRole(AriaRole.Link, new() { Name = "Editar", Exact = true }).ClickAsync();
 
@@ -63,6 +54,19 @@ public sealed class TarefaE2ETests : E2ETestsBase
     public async Task Deve_Excluir_Tarefa_Corretamente()
     {
         // Arranjo
+        ILocator card = await CadastrarTarefaAsync();
+        await card.GetByRole(AriaRole.Link, new() { Name = "Excluir", Exact = true }).ClickAsync();
+
+        // Ação
+        await page.GetByRole(AriaRole.Button, new() { Name = "Confirmar" }).ClickAsync();
+
+        // Asserção
+        await Assertions.Expect(card).ToHaveCountAsync(0);
+        await Assertions.Expect(page.GetByRole(AriaRole.Alert)).ToHaveTextAsync("Nenhuma tarefa cadastrada.");
+    }
+
+    private async Task<ILocator> CadastrarTarefaAsync()
+    {
         await CadastrarUsuarioAsync();
 
         await page.GotoAsync($"{baseUrl}/Tarefa/Cadastrar");
@@ -72,15 +76,6 @@ public sealed class TarefaE2ETests : E2ETestsBase
 
         await page.GetByRole(AriaRole.Button, new() { Name = "Confirmar" }).ClickAsync();
 
-        ILocator card = page.Locator(".card").Filter(new() { HasText = "Lavar o cachorro" });
-
-        await card.GetByRole(AriaRole.Link, new() { Name = "Excluir", Exact = true }).ClickAsync();
-
-        // Ação
-        await page.GetByRole(AriaRole.Button, new() { Name = "Confirmar" }).ClickAsync();
-
-        // Asserção
-        await Assertions.Expect(card).ToHaveCountAsync(0);
-        await Assertions.Expect(page.GetByRole(AriaRole.Alert)).ToHaveTextAsync("Nenhuma tarefa cadastrada.");
+        return page.Locator(".card").Filter(new() { HasText = "Lavar o cachorro" });
     }
 }
