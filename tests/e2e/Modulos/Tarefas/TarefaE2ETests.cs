@@ -1,6 +1,6 @@
 using Microsoft.Playwright;
 
-namespace eAgenda.Testes.e2e;
+namespace eAgenda.Testes.e2e.Modulos.Tarefas;
 
 [TestClass]
 public sealed class TarefaE2ETests
@@ -50,6 +50,26 @@ public sealed class TarefaE2ETests
         ILocator card = page.Locator(".card").Filter(new() { HasText = "Lavar o cachorro" });
 
         // Asserção
-        Assert.IsTrue(await card.IsVisibleAsync());
+        Assert.IsTrue(await card.First.IsVisibleAsync());
+    }
+
+    [TestMethod]
+    public async Task Deve_Editar_Tarefa_Corretamente()
+    {
+        // Arranjo
+
+        // Ação
+
+        // Asserção
+    }
+
+    [TestMethod]
+    public async Task Deve_Excluir_Tarefa_Corretamente()
+    {
+        // Arranjo
+
+        // Ação
+
+        // Asserção
     }
 }
