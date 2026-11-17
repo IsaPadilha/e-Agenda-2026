@@ -3,6 +3,7 @@ using eAgenda.Dominio.Compartilhado;
 using eAgenda.Infraestrutura.Compartilhado;
 using eAgenda.Infraestrutura.Compartilhado.Orm;
 using eAgenda.Infraestrutura.Modulos.Contatos;
+using eAgenda.WebApp.Compartilhado.Extensions;
 using eAgenda.Aplicacao.Modulos.Compromissos;
 using eAgenda.Dominio.Modulos.Compromissos;
 using eAgenda.Infraestrutura.Modulos.Compromissos;
@@ -49,7 +50,7 @@ builder.Services.AddScoped<IProvedorUsuarioAtual, ProvedorUsuarioAtualHttp>();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsTesting())
 {
     using var scope = app.Services.CreateScope();
 
@@ -65,3 +66,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+public partial class Program { }

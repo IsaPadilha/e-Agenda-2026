@@ -1,3 +1,4 @@
+using eAgenda.Testes.e2e.Compartilhado;
 using Microsoft.Playwright;
 
 namespace eAgenda.Testes.e2e.Modulos.Tarefas;
@@ -5,14 +6,21 @@ namespace eAgenda.Testes.e2e.Modulos.Tarefas;
 [TestClass]
 public sealed class TarefaE2ETests
 {
+    private TestApplicationFactory applicationFactory = null!;
     private IPlaywright playwright = null!;
     private IBrowser browser = null!;
     private IBrowserContext browserContext = null!;
     private IPage page = null!;
+    private string? baseUrl = null;
 
     [TestInitialize]
     public async Task InicializarTeste()
     {
+        applicationFactory = new TestApplicationFactory();
+        await applicationFactory.StartAsync();
+
+        baseUrl = applicationFactory.BaseUrl;
+
         playwright = await Playwright.CreateAsync();
         browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
@@ -39,7 +47,7 @@ public sealed class TarefaE2ETests
         await page.GetByLabel("Senha").FillAsync("Teste@123");
         await page.GetByRole(AriaRole.Button, new() { Name = "Entrar" }).ClickAsync();
 
-        await page.GotoAsync("http://localhost:5013/Tarefa/Cadastrar");
+        await page.GotoAsync($"{baseUrl}/Tarefa/Cadastrar");
 
         // Ação
         await page.GetByLabel("Título").FillAsync("Lavar o cachorro");

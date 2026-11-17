@@ -5,6 +5,7 @@ using eAgenda.Infraestrutura.Modulos.Categorias;
 using eAgenda.Dominio.Modulos.Tarefas;
 using Microsoft.EntityFrameworkCore;
 using eAgenda.Dominio.Modulos.Despesas;
+using eAgenda.Infraestrutura.Modulos.Compromissos;
 using eAgenda.Infraestrutura.Modulos.Despesas;
 using eAgenda.Infraestrutura.Modulos.Tarefas;
 using eAgenda.Dominio.Modulos.Contatos;
@@ -24,12 +25,14 @@ public sealed class EAgendaDbContext(
     public DbSet<Tarefa> Tarefas => Set<Tarefa>();
     public DbSet<ItemTarefa> ItensTarefa => Set<ItemTarefa>();
     public DbSet<Contato> Contatos { get; set; }
+    public DbSet<Compromisso> Compromissos => Set<Compromisso>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new CategoriaConfiguration());
         modelBuilder.ApplyConfiguration(new DespesaConfiguration());
         modelBuilder.ApplyConfiguration(new TarefaConfiguration());
         modelBuilder.ApplyConfiguration(new ItemTarefaConfiguration());
+        modelBuilder.ApplyConfiguration(new CompromissoConfiguration());
 
         // QueryFilter aplica um filtro global para isolar os dados de cada usuário
         modelBuilder.Entity<Categoria>().HasQueryFilter(c => c.UsuarioId == usuarioAtual.Id);
