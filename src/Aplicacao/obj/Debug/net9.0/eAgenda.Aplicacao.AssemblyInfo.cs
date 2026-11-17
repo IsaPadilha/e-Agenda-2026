@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("eAgenda.Aplicacao")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bb5dfb5f3806658e98874c39abac9bbe32afca8a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d657b156fa17470b667c442c889a7488313e3b4c")]
 [assembly: System.Reflection.AssemblyProductAttribute("eAgenda.Aplicacao")]
 [assembly: System.Reflection.AssemblyTitleAttribute("eAgenda.Aplicacao")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
