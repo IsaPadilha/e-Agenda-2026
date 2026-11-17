@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("eAgenda.Testes.e2e")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c18abbb9d4b9ff8a40ca17f6098b4c9e52c29d0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3ca76d57cc4c12621be33c1f1a6ed270e3694808")]
 [assembly: System.Reflection.AssemblyProductAttribute("eAgenda.Testes.e2e")]
 [assembly: System.Reflection.AssemblyTitleAttribute("eAgenda.Testes.e2e")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
